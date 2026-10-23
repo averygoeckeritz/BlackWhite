@@ -25,11 +25,11 @@ Source data: PokeAPI (Scarlet/Violet learnset in [`kingambit-gen9-learnset.json`
 
 ## Evolution
 
-- **Bisharp → Kingambit.** Gen 9's method (defeat three Bisharp holding a Leader's Crest) can't be done in Gen 5.
-  Options: **level 64** (when Gen 9 Kingambit learns Swords Dance) or **level up holding a King's Rock**
-  (fits the name; Redux already lets King's Rock be "used" like a stone). *Decision needed.*
-- **Klang → (nothing).** Klang currently evolves into slot #601 at level 49, which would make it evolve into
-  Kingambit. Remove that evolution so Klang becomes the end of its line. *Decision needed.*
+- **Bisharp → Kingambit: level up holding a King's Rock at level 61 or above** (chosen).
+  Gen 5 has no built-in "item + minimum level" method; its options are a level, or level up holding an item.
+  Doing both needs a small code patch to the evolution routine. *To research before editing; fallback is
+  King's Rock only.* (Gen 9's real method, defeating three Bisharp holding a Leader's Crest, can't be done in Gen 5.)
+- **Klang stops evolving** (chosen). Its level-49 evolution into slot #601 is removed, so Klang is the end of its line.
 
 ## Level-up moves
 
@@ -77,14 +77,14 @@ Gen 5-only TMs Bisharp can learn (e.g. Return, Frustration, Hidden Power, Paybac
 
 ## Things in Redux that use Klinklang
 
-Every one of these becomes Kingambit unless changed. *Decisions needed.*
-
-| Where | Current | Note |
+| Where | Was | Becomes (chosen) |
 | --- | --- | --- |
-| Colress, Plasma Frigate | Klinklang lv.66 @Life Orb: Gear Grind, Shift Gear, Wild Charge, High Horsepower | His ace; moves would be wrong for Kingambit |
-| Ranger♂ Eddie | Klinklang lv.70: Shift Gear, Superpower, Gear Grind, Wild Charge | |
-| Colress (postgame) | Klinklang lv.88: Gear Grind, Shift Gear, Wild Charge, Superpower | |
-| P2 Laboratory, shaking grass | Klinklang lv.68, 5% | Would become a wild Kingambit |
+| Colress, Plasma Frigate | Klinklang lv.66 @Life Orb: Gear Grind, Shift Gear, Wild Charge, High Horsepower | **Kingambit** [Defiant] lv.66 @Life Orb: Kowtow Cleave, Iron Head, Sucker Punch, Swords Dance |
+| Ranger♂ Eddie | Klinklang lv.70: Shift Gear, Superpower, Gear Grind, Wild Charge | **Kingambit** [Defiant] lv.70: Kowtow Cleave, Iron Head, Sucker Punch, Brick Break |
+| Colress (postgame) | Klinklang lv.88: Gear Grind, Shift Gear, Wild Charge, Superpower | **Kingambit** [Defiant] lv.88: Kowtow Cleave, Iron Head, Sucker Punch, Swords Dance |
+| P2 Laboratory, shaking grass | Klinklang lv.68, 5% | **Klang** lv.68, 5% |
+
+Sucker Punch comes from Bisharp's Redux level-up list (level 55), so it's a move Kingambit can legitimately have.
 
 ## Sprites
 

@@ -16,7 +16,8 @@ and becomes Bisharp's evolution.
 
 - [x] Gen 9 data collected and mapped to what exists in Redux
 - [x] Gen 5-style sprite found (front, shiny; 96×96, 15 colours + transparency)
-- [ ] Decisions: evolution method, Klang, Colress/Eddie's Klinklang, P2 Lab encounter
+- [x] Decisions: King's Rock + level 61, Klang stops evolving, Colress/Eddie use Kingambit, P2 Lab gets Klang
+- [ ] Research a Gen 5 "item + level" evolution patch (fallback: King's Rock only)
 - [ ] Set up the editing tools on a computer
 - [ ] Edit species data, learnset, TMs, evolution, name and Pokédex text
 - [ ] Kowtow Cleave: copy into an unused move slot
