@@ -11,16 +11,17 @@ and becomes Bisharp's evolution.
 
 - Data sheet: [`data/kingambit.md`](data/kingambit.md)
 - Sprites: [`sprites/kingambit/`](sprites/kingambit/)
+- Tools and step-by-step order: [`docs/setup.md`](docs/setup.md)
 
 ### Status
 
 - [x] Gen 9 data collected and mapped to what exists in Redux
 - [x] Gen 5-style sprite found (front, shiny; 96×96, 15 colours + transparency)
-- [x] Decisions: King's Rock + level 61, Klang stops evolving, Colress/Eddie use Kingambit, P2 Lab gets Klang
-- [ ] Research a Gen 5 "item + level" evolution patch (fallback: King's Rock only)
-- [ ] Set up the editing tools on a computer
+- [x] Decisions: Bisharp evolves at level 61, Klang stops evolving, Colress/Eddie use Kingambit, P2 Lab gets Klang
+- [x] Tool chosen: Frost's Gen 5 Editor (supports Redux); Kowtow Cleave slot: Clamp
+- [ ] Install the editor on a computer and do the Fairy-type fix
 - [ ] Edit species data, learnset, TMs, evolution, name and Pokédex text
-- [ ] Kowtow Cleave: copy into an unused move slot
+- [ ] Kowtow Cleave: rebuild Clamp (#128) as Kowtow Cleave
 - [ ] Import sprites and palettes
 - [ ] Fix trainers and wild encounters that used Klinklang
 - [ ] Test in an emulator, then in Delta

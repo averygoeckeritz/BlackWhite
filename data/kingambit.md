@@ -25,10 +25,8 @@ Source data: PokeAPI (Scarlet/Violet learnset in [`kingambit-gen9-learnset.json`
 
 ## Evolution
 
-- **Bisharp → Kingambit: level up holding a King's Rock at level 61 or above** (chosen).
-  Gen 5 has no built-in "item + minimum level" method; its options are a level, or level up holding an item.
-  Doing both needs a small code patch to the evolution routine. *To research before editing; fallback is
-  King's Rock only.* (Gen 9's real method, defeating three Bisharp holding a Leader's Crest, can't be done in Gen 5.)
+- **Bisharp → Kingambit at level 61** (chosen). A standard Gen 5 level-up evolution, no code changes needed.
+  (Gen 9's real method, defeating three Bisharp holding a Leader's Crest, can't be done in Gen 5.)
 - **Klang stops evolving** (chosen). Its level-49 evolution into slot #601 is removed, so Klang is the end of its line.
 
 ## Level-up moves
@@ -58,8 +56,8 @@ Gen 5 can't teach a move "on evolution", so Kowtow Cleave goes at level 1 *and* 
 Gen 9: Dark, Physical, 85 power, never misses, 10 PP, makes contact.
 
 Gen 5 has no slot for a new move, so copy these values onto a move slot that nothing in Redux uses,
-then rename it. Its effect is the same as a normal hit (Night Slash's crit boost removed); "never misses"
-is accuracy set to the "always hits" value used by Aerial Ace. *Which slot to use: to be confirmed in the editor.*
+then rename it. **Slot: Clamp (#128)**, which nothing in Redux uses (see [`../docs/setup.md`](../docs/setup.md)).
+Effect: plain damage; accuracy: the "always hits" value Aerial Ace uses; animation: Night Slash's.
 
 ## TM compatibility
 
