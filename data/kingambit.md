@@ -86,6 +86,25 @@ Sucker Punch comes from Bisharp's Redux level-up list (level 55), so it's a move
 
 ## Sprites
 
+### Primary: animated set by Ghasty001
+
+[`../sprites/kingambit/animated/`](../sprites/kingambit/animated/), from
+[Animated_sprites_by_Ghasty001](https://github.com/Ghasty001/Animated_sprites_by_Ghasty001) (free to use with credit;
+base art by Anarlaurendil). All four are 96×96 GIFs with transparency and a 0.12 s frame delay. Inspected 2026-10-27:
+
+| File | Frames | Opaque colours | Fits 16-colour palette? | Shiny is a pure palette swap? |
+| --- | --- | --- | --- | --- |
+| `front.gif` | 42 | 14 | Yes | — |
+| `front-shiny.gif` | 42 | 14 | Yes | Yes: same pixels, 1:1 colour map |
+| `back.gif` | 7 | 15 | Yes (exactly at the limit) | — |
+| `back-shiny.gif` | 7 | 17 | **No**, 2 over | **No**: hand-recoloured, 554 pixels break the colour map |
+
+Gen 5 stores one tile set per side and swaps the palette for shiny, so the shiny back can't be used as-is.
+To do: rebuild `back-shiny.gif` by mapping each of the normal back's 15 colours to one shiny colour
+(take the dominant mapping from the current file), which fixes both problems at once.
+
+### Fallback: static Showdown sprites
+
 [`../sprites/kingambit/`](../sprites/kingambit/): Gen 5-style front and shiny front, 96×96,
-15 colours + transparency (fits Gen 5's 16-colour palette). From the Smogon Sprite Project via Pokémon Showdown.
-The "back" files are a second front pose, not a true back view: a back sprite still needs to be found or drawn.
+15 colours + transparency. From the Smogon Sprite Project via Pokémon Showdown.
+The "back" files there are a second front pose, not a true back view.

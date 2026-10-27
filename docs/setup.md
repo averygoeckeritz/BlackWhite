@@ -59,5 +59,6 @@ Other candidates if Clamp turns out to be used: Ice Ball (#301), Mud Sport (#300
 4. Evolutions: Bisharp → Kingambit at 61; remove Klang's evolution.
 5. Trainers: Colress ×2 and Ranger Eddie (see the data sheet).
 6. Wild: P2 Laboratory shaking grass → Klang lv.68.
-7. Sprites: front, shiny front, back, palettes, and the party icon.
+7. Sprites: the animated set in `sprites/kingambit/animated/` (fix the shiny back first, see the data sheet),
+   palettes, and the party icon. Check whether the editor's sprite tool takes multi-frame input before committing to it.
 8. Test, then build the `.xdelta` patch.

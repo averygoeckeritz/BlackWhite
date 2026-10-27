@@ -17,11 +17,13 @@ and becomes Bisharp's evolution.
 
 - [x] Gen 9 data collected and mapped to what exists in Redux
 - [x] Gen 5-style sprite found (front, shiny; 96×96, 15 colours + transparency)
+- [x] Animated Gen 5-style set found (front, back, both shinies; 96×96) from Ghasty001, now the primary sprite source
 - [x] Decisions: Bisharp evolves at level 61, Klang stops evolving, Colress/Eddie use Kingambit, P2 Lab gets Klang
 - [x] Tool chosen: Frost's Gen 5 Editor (supports Redux); Kowtow Cleave slot: Clamp
 - [ ] Install the editor on a computer and do the Fairy-type fix
 - [ ] Edit species data, learnset, TMs, evolution, name and Pokédex text
 - [ ] Kowtow Cleave: rebuild Clamp (#128) as Kowtow Cleave
+- [ ] Rebuild the shiny back sprite as a palette swap of the normal back (15 colours max)
 - [ ] Import sprites and palettes
 - [ ] Fix trainers and wild encounters that used Klinklang
 - [ ] Test in an emulator, then in Delta
@@ -30,5 +32,7 @@ and becomes Bisharp's evolution.
 ### Credits
 
 - Volt White 2 Redux: Drayano & AphexCubed
-- Gen 5-style Kingambit sprites: Smogon Sprite Project, via Pokémon Showdown
+- Animated Gen 5-style Kingambit sprites (front, back, shinies): [Ghasty001](https://github.com/Ghasty001/Animated_sprites_by_Ghasty001),
+  free to use with credit; base Kingambit art by Anarlaurendil (DeviantArt)
+- Static Gen 5-style Kingambit sprites (fallback): Smogon Sprite Project, via Pokémon Showdown
 - Data: PokeAPI
