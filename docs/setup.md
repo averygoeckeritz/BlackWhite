@@ -185,6 +185,10 @@ the NARC in place (later entries shift, the BTAF table, block sizes and the ROM 
 the padding that follows the archive in the ROM (374 bytes of slack after `a/0/0/4`). Pattern and durations
 are both free now, so later tweaks are a script run, not an editor session.
 
+**Slow breath (current).** The 8-frame flicks read as twitches, so the idle is now one breath and a long rest:
+A 74 / B 14 / C 18 / B 14 frames = 120 frames = 2.0 s per loop, with 1.23 s of rest on the base pose. The back
+sequence went back to 4 steps (395-byte entry, written with `grow-narc-entry.ps1`); the front keeps 32 steps.
+
 Two editor lessons from this step: the editor's loader throws "There was an error in the XML file of language"
 (a misleading catch-all) when a compressed sprite entry has unused trailing bytes, so an in-place replacement
 must fill the entry exactly (`lz11-compress-optimal.ps1 -ExactSize`); and PowerShell unrolls a List returned from a

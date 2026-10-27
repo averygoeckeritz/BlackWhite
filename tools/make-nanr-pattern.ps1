@@ -1,10 +1,11 @@
-param([string]$In, [string]$OutFile, [int]$Seq = 0, [int[]]$Cells = @(0, 1, 0, 1, 0, 1, 2, 3), [int[]]$Durations = @(20, 8, 20, 8, 20, 8, 20, 8), [int]$Frames = 0)
+param([string]$In, [string]$OutFile, [int]$Seq = 0, [int[]]$Cells = @(0, 1, 2, 3), [int[]]$Durations = @(74, 14, 18, 14), [int]$Frames = 0)
 # Rebuilds one sequence of a decompressed Gen 5 RNAN (part animation) file with an explicit step pattern:
 # -Cells is the cell (rig part) shown at each step, -Durations the step lengths in 1/60 s frames, both cycled over
 # -Frames steps (default: the pattern length). The sequence may grow or shrink: bytes are inserted or removed after
 # its frame list and every offset that follows is fixed up. Cells must already appear in the sequence (their
 # frame-data entries are reused). Writes the raw RNAN; compress it with lz11-compress-optimal.ps1 -ExactSize.
-# Default: A B A B A B C B with parts 0,1,2,3 = poses A,B,C,B, 20/8 ... = 112 frames = 1.87 s per loop.
+# Default: one slow breath A 74 / B 14 / C 18 / B 14 (parts 0,1,2,3 = poses A,B,C,B) = 120 frames = 2.0 s per loop.
+# History: A B A B A B C B at 20/8 (1.87 s) read as flicks; see docs/setup.md.
 $b = [IO.File]::ReadAllBytes($In)
 function U16($o) { return [BitConverter]::ToUInt16($b, $o) }
 function I32($o) { return [BitConverter]::ToInt32($b, $o) }
