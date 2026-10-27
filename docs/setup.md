@@ -30,6 +30,17 @@ Skipping this can corrupt Fairy-type data when saving other edits.
 3. Keep the untouched Redux ROM. The final `.xdelta` patch is made from it to the edited copy.
 4. Save often, and keep dated backups of the copy after each step.
 
+Done 2026-10-27. The master copy lives in Google Drive as `My Drive\Pokémon\White 2 Redux.nds`
+(mounted as `G:` on Avery's PC). Local copies are in `rom/`, which `.gitignore` excludes:
+
+| File | Role |
+| --- | --- |
+| `rom/White2Redux-original.nds` | Untouched Redux ROM; the `.xdelta` source. Never edit. |
+| `rom/White2Redux-Kingambit.nds` | The working copy that the editor opens. |
+
+Header check: title `POKEMON W2`, game code `IRDO` (White 2, US), 512 MiB.
+SHA-256 of the original: `95F34213D26DBEED09C00DD0FE484FEC9A0F19D41B4E6CE5EAED13E5333CA0DC`.
+
 ## Kowtow Cleave slot: Clamp (#128)
 
 Clamp never appears in Redux's documentation: no Pokémon's level-up list, no trainer team, no TM, no
