@@ -1,4 +1,5 @@
-param([string]$In, [string]$OutFile, [int]$Seq = 0, [int]$Duration = 16)
+param([string]$In, [string]$OutFile, [int]$Seq = 0, [int]$Duration = 48)
+# Duration history: 4 (original gears, flickers), 16 (1.07 s bob, too fast on a phone), 48 (3.2 s breath, current).
 # Rewrites every frame duration of one RNAN sequence (decompressed input) and writes the result as a valid
 # LZ11 stream using literal-only encoding (no back references; always decodes correctly, just not small).
 $b = [IO.File]::ReadAllBytes($In)
