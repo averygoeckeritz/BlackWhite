@@ -23,7 +23,7 @@ and becomes Bisharp's evolution.
 - [x] Install the editor on a computer and do the Fairy-type fix (2026-10-27)
 - [x] Edit species data, learnset, TMs, evolution, name and Pokédex text (2026-10-27, byte-verified)
 - [x] Kowtow Cleave: rebuild Clamp (#128) as Kowtow Cleave (2026-10-27)
-- [x] Import sprites and palettes (2026-10-27: static front/back/shinies and party icon; see `docs/setup.md`)
+- [x] Import sprites and palettes (2026-10-27: front/back/shinies with a two-pose idle animation, and the party icon; see `docs/setup.md`)
 - [x] Fix trainers and wild encounters that used Klinklang (2026-10-27)
 - [x] Boot test in melonDS (2026-10-27): the edited ROM loads, plays the intro and reaches the overworld
 - [ ] In-game check of Kingambit (sprite, icon, dex entry, Kowtow Cleave, evolution): not done. A test ROM with
