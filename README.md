@@ -23,7 +23,7 @@ and becomes Bisharp's evolution.
 - [x] Install the editor on a computer and do the Fairy-type fix (2026-10-27)
 - [x] Edit species data, learnset, TMs, evolution, name and Pokédex text (2026-10-27, byte-verified)
 - [x] Kowtow Cleave: rebuild Clamp (#128) as Kowtow Cleave (2026-10-27)
-- [x] Import sprites and palettes (2026-10-27: front/back/shinies with a three-pose slow-breath idle animation (A B C B, 2.0 s with a long rest), and the party icon; see `docs/setup.md`)
+- [x] Import sprites and palettes (2026-10-27: front/back/shinies with a four-pose idle animation (quiet breath, then the full dip: A B C B C D C B, 2.9 s), and the party icon; see `docs/setup.md`)
 - [x] Fix trainers and wild encounters that used Klinklang (2026-10-27)
 - [x] Kingambit's own cry in Klinklang's slot (2026-10-27): the official cry from the PokeAPI cries archive, trimmed
       to 1.7 s and resampled to 8-bit 12.7 kHz to fit the slot; see `docs/setup.md`
