@@ -25,6 +25,8 @@ and becomes Bisharp's evolution.
 - [x] Kowtow Cleave: rebuild Clamp (#128) as Kowtow Cleave (2026-10-27)
 - [x] Import sprites and palettes (2026-10-27: front/back/shinies with a three-pose slow-breath idle animation (A B C B, 2.0 s with a long rest), and the party icon; see `docs/setup.md`)
 - [x] Fix trainers and wild encounters that used Klinklang (2026-10-27)
+- [x] Kingambit's own cry in Klinklang's slot (2026-10-27): the official cry from the PokeAPI cries archive, trimmed
+      to 1.7 s and resampled to 8-bit 12.7 kHz to fit the slot; see `docs/setup.md`
 - [x] Boot test in melonDS (2026-10-27): the edited ROM loads, plays the intro and reaches the overworld
 - [x] In-game check of Kingambit (2026-10-27): wild Kingambit battles on Route 19 in melonDS and in Delta on the phone
       (sprite, icon, idle animation). A test ROM with Kingambit in Route 19's grass is at

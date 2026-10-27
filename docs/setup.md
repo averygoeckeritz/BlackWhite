@@ -205,6 +205,18 @@ u8 order; sequence 0 of the old Klinklang rig sits at (0,-40), its gear sequence
 1 and 2 to (0,-40) as well (`patch-bytes.ps1` on entry 12026) lines the bands up. The editor opens the ROM fine
 after the in-place NARC rewrites.
 
+## Cry
+
+Gen 5 cries live in `swan_sound_data.sdat` (NitroFS file 346): one SWAR per Pokémon, `WAVE_ARC_PVnnn` (SWAR
+index nnn, found through the SYMB and INFO blocks), holding a single SWAV of signed 8-bit PCM, no loop, played
+through `BANK_PVnnn` and the shared `SEQ_PV`. Klinklang's is 10512 Hz, 21628 bytes (2.06 s); Bisharp's is
+22050 Hz, 0.8 s. The SDAT packs its files back to back, so the replacement must fit the old data area.
+Kingambit's official cry (PokeAPI `cries/pokemon/latest/983.ogg`, 2.0 s at 48 kHz; its energy is gone by 1.7 s)
+was trimmed to 1.70 s with a 150 ms fade, given +0.6 dB (peak 121/127, nothing clipped) and resampled to mono
+signed 8-bit at 12700 Hz with ffmpeg (`-f s8`), 21590 bytes. `tools/patch-cry.ps1` writes it in place: new rate,
+ARM7 timer value floor(16756991 / rate) and length in words in the SWAV header, data zero-padded to the old
+size. The bank and sequence are untouched. ffmpeg came from `winget install Gyan.FFmpeg`.
+
 Two editor lessons from this step: the editor's loader throws "There was an error in the XML file of language"
 (a misleading catch-all) when a compressed sprite entry has unused trailing bytes, so an in-place replacement
 must fill the entry exactly (`lz11-compress-optimal.ps1 -ExactSize`); and PowerShell unrolls a List returned from a
