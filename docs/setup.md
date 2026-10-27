@@ -144,8 +144,11 @@ So Kingambit is **static** in battle. What was done, all verified by decoding th
 6. In the editor's Sprite Editor (Pokemon Editor → Sprite Editor): Import Image for Front Sprite, Front Rig,
    Back Sprite and Back Rig, then Save Rom. This is the only sprite step the editor does (LZ11 compression and
    the NARC rebuild).
-7. `tools/make-icon.ps1`: 32×64 party icon (two frames) from the front sprite, snapped to icon palette 0, written
-   in place into `a/0/0/7`. It is a downscale, so it is rough; a hand-drawn icon would be an improvement.
+7. Party icon: first a rough downscale (`tools/make-icon.ps1`), then replaced by CarmaNekko's hand-drawn
+   Gen 5-style icon from the Smogon menu-icon pack (`sprites/kingambit/static/icon-smogon.png`, two 32×32
+   frames at double size). `tools/make-icon-from-sheet.ps1` halves it, stacks the frames, snaps the 12 colours to
+   whichever of the three shared icon palettes fits best (palette 0 won), writes the icon in place into
+   `a/0/0/7` and the palette id into arm9.
 8. `tools/render-sprites.ps1`: decoded everything back; 0 pixels differ.
 
 **Two-pose idle animation (added later on 2026-10-27).** The gear-spin sequence (sequence 0 of the part

@@ -41,4 +41,7 @@ and becomes Bisharp's evolution.
 - Animated Gen 5-style Kingambit sprites (front, back, shinies): [Ghasty001](https://github.com/Ghasty001/Animated_sprites_by_Ghasty001),
   free to use with credit; base Kingambit art by Anarlaurendil (DeviantArt)
 - Static Gen 5-style Kingambit sprites (fallback): Smogon Sprite Project, via Pokémon Showdown
+- Party icon: CarmaNekko (Gen 9 Sprite Project), from the Smogon
+  [Gen 3/4/5-style menu icons for Gen 6+ Pokémon](https://www.smogon.com/forums/threads/gen-3-4-5-style-menu-icons-for-gen-6-pok%C3%A9mon.3710134/)
+  pack organised by KRLW890; free for non-profit use with credit
 - Data: PokeAPI
