@@ -176,6 +176,15 @@ frames 0, 2 and 4, but frame 4 (the fully crouched extreme) read as too strong a
 frames 0, 1 and 2: C is the GIF's half-way crouch and B the step before it. Only the sheet PNGs changed; the
 cells and the animation file are the same.
 
+**More movement: A B A B A B C B (later still).** With the dip softened the idle read as too still, so the
+sequence itself was rewritten with `tools/make-nanr-pattern.ps1`: three small A→B flicks (20 + 8 frames each)
+and then the C settle (20) with its B return (8), 112 frames = 1.87 s per loop. The front sequence keeps its 32
+steps (the pattern cycled four times); the back sequence had only 4 steps and had to grow to 8, and the
+longer file compresses to 398 bytes, four more than its 394-byte entry. `tools/grow-narc-entry.ps1` rewrites
+the NARC in place (later entries shift, the BTAF table, block sizes and the ROM FAT end are fixed up) using
+the padding that follows the archive in the ROM (374 bytes of slack after `a/0/0/4`). Pattern and durations
+are both free now, so later tweaks are a script run, not an editor session.
+
 Two editor lessons from this step: the editor's loader throws "There was an error in the XML file of language"
 (a misleading catch-all) when a compressed sprite entry has unused trailing bytes, so an in-place replacement
 must fill the entry exactly (`lz11-compress-optimal.ps1 -ExactSize`); and PowerShell unrolls a List returned from a
