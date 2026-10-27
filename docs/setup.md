@@ -100,6 +100,32 @@ Editor quirk: the Move Editor's "Set Name" and "Set Description" buttons reporte
 the text files. The name and description had to be edited in the Text Editor (files 403 and 402, `[N]` = line break).
 The Text Editor's Search button also crashed with "Specified cast is not valid"; the editor survives "Continue".
 
+## How the species step was actually done (2026-10-27)
+
+The Pokemon Editor is usable but fragile: holding Down through 600 species queues one load per key press,
+garbles the panels until the queue drains (several minutes), and threw an unhandled "SelectedIndex" exception
+once. What worked:
+
+- **Base data** (stats, EV yield, types, abilities, growth, gender, exp, friendship, catch rate, height, weight,
+  egg groups) in the Pokemon Editor on Klinklang - 601, then "Apply Pokemon" and "Save Rom". The editable
+  dropdowns (Level Rate, Gender Ratio, Egg Groups) must be picked from their lists; typing into them is kept as
+  literal text. Verified with `tools/dump-species-data.ps1`.
+- **Name, classification and dex entry**: the Pokedex panel's "Apply" changed nothing (same bug as the Move
+  Editor's Set Name). Edited in the Text Editor instead: file 90 line 601 (name), file 464 line 601
+  (classification), file 442 line 601 (dex entry, `[N]` = line break). Verified with `tools/dump-text.ps1`.
+- **Level-up moves and TM/tutor compatibility**: written straight into the saved ROM by
+  `tools/patch-kingambit-learnset-tms.ps1` (the editor's Paste button is disabled and the list would have
+  needed ~80 clicks). The learnset is rewritten in place and FF-padded; the TM/tutor bytes are Bisharp's plus
+  TM91 Flash Cannon. Level 30 got Snarl (Gen 9 has Metal Sound there, which Redux removed).
+- **Evolutions**: `tools/patch-evolutions.ps1` (Bisharp: level 61 → 601; Klang: evolution removed).
+- **Trainers**: `tools/patch-trainers.ps1` rewrote the three scripted sets. The ROM also has two other
+  Klinklang users with no custom moves (trainer ids 135 at lv 77 and 744 at lv 79, likely PWT or similar);
+  they become Kingambit automatically and use the last four level-up moves.
+
+Rule when mixing the two: the editor saves from memory, so after any script patch, reload the ROM in the
+editor ("Open Rom") before the editor saves again, or the patch is lost. A dated backup goes in
+`rom/backups/` after every step.
+
 ## Order of work
 
 1. Fairy fix (above).

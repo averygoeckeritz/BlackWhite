@@ -40,7 +40,7 @@ Gen 9 list, with the two moves that don't exist in Redux handled:
 | 15 | Torment | |
 | 20 | Scary Face | |
 | 25 | Assurance | |
-| 30 | ~~Metal Sound~~ → **Iron Defense** moved earlier, or Snarl | Redux replaced Metal Sound with Scorching Sands |
+| 30 | **Snarl** (chosen 2026-10-27) | Redux replaced Metal Sound with Scorching Sands |
 | 35 | Slash | |
 | 40 | Night Slash | |
 | 45 | Iron Defense | |
