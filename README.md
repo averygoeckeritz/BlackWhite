@@ -20,7 +20,7 @@ and becomes Bisharp's evolution.
 - [x] Animated Gen 5-style set found (front, back, both shinies; 96×96) from Ghasty001, now the primary sprite source
 - [x] Decisions: Bisharp evolves at level 61, Klang stops evolving, Colress/Eddie use Kingambit, P2 Lab gets Klang
 - [x] Tool chosen: Frost's Gen 5 Editor (supports Redux); Kowtow Cleave slot: Clamp
-- [ ] Install the editor on a computer and do the Fairy-type fix
+- [x] Install the editor on a computer and do the Fairy-type fix (2026-10-27)
 - [ ] Edit species data, learnset, TMs, evolution, name and Pokédex text
 - [ ] Kowtow Cleave: rebuild Clamp (#128) as Kowtow Cleave
 - [ ] Rebuild the shiny back sprite as a palette swap of the normal back (15 colours max)

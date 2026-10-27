@@ -23,6 +23,22 @@ Before any other edit, per the editor's own instructions:
 
 Skipping this can corrupt Fairy-type data when saving other edits.
 
+**Done 2026-10-27** on `rom/White2Redux-Kingambit.nds`. File 398 had 17 entries (Normal … Dark);
+Fairy was added as line 17 with no trailing blank line, applied, and the ROM saved. Verified by reopening the
+saved file. The bundled `Patches\White2Fairy.Vpatch` was not used: it adds the Fairy type to a vanilla ROM,
+and Redux already has it.
+
+Note: the editor trims padding on save, so the working copy is now 289,015,808 bytes instead of 512 MiB.
+The editor reloads it fine, and emulators accept trimmed ROMs. The `.xdelta` is still made from the
+untouched 512 MiB original, so players patch the same file they already have.
+
+### Editor quirks
+
+- The file-number box in the Text Editor doesn't react to typed numbers. Open the dropdown and click the file,
+  or focus the box and use the arrow keys.
+- "Save Rom" always opens a Save As dialog; type the working copy's full path and confirm the overwrite.
+- Launch the editor from its own folder, or it writes `Preferences.txt` into whatever folder it was started from.
+
 ## Working copy
 
 1. Patch a clean **Pokémon White 2** ROM with **Volt White 2 Redux v1.4.1** (the same file you play).
