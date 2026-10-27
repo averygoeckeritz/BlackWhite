@@ -77,6 +77,29 @@ move tutor. In the editor, first confirm nothing else uses it (egg moves), then 
 
 Other candidates if Clamp turns out to be used: Ice Ball (#301), Mud Sport (#300), Water Sport (#346).
 
+**Done 2026-10-27.** Before overwriting, a script read the untouched ROM directly and confirmed move 128 appears in
+no level-up learnset (710 entries, `a/0/1/8`), no trainer team (891 trainers, `a/0/9/2`) and no egg-move list
+(650 species, `a/1/2/4`). Redux had already altered the slot's data (Fire, physical, 110 power, 100 accuracy,
+5 PP, effect 27) while leaving the Clamp name and description, so it was an abandoned slot either way.
+
+What was set in the Move Editor, then verified byte-for-byte in the saved ROM (`a/0/2/1`, entry 128):
+
+| Field | Value |
+| --- | --- |
+| Type / Dmg Type / Category | Dark / Physical / Damage |
+| Target | Single Target (same as Night Slash and Aerial Ace) |
+| Base Power / Accuracy / PP | 85 / 101 / 10 (101 is the never-miss value Aerial Ace uses) |
+| AI Code (effect) | 17, the same always-hit effect Aerial Ace uses |
+| Inflictions | None |
+| Flags | Makes contact, Affected by Protect, Copied by Mirror Move (Redux's existing flags, kept) |
+| Animation | Night Slash's script pasted in via "Apply Anim Data" |
+| Name | Kowtow Cleave, text file 403 line 128 |
+| Description | "The user slashes at the target after[N]kowtowing to make the target let down[N]its guard. This attack never misses." in text file 402 line 128 |
+
+Editor quirk: the Move Editor's "Set Name" and "Set Description" buttons reported nothing but did not change
+the text files. The name and description had to be edited in the Text Editor (files 403 and 402, `[N]` = line break).
+The Text Editor's Search button also crashed with "Specified cast is not valid"; the editor survives "Continue".
+
 ## Order of work
 
 1. Fairy fix (above).

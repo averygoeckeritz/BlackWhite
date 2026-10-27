@@ -1,4 +1,5 @@
 *.nds
+rom/
 *.zip
 *.7z
 *.sav
