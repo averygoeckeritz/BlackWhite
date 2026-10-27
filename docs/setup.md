@@ -148,8 +148,18 @@ So Kingambit is **static** in battle. What was done, all verified by decoding th
    in place into `a/0/0/7`. It is a downscale, so it is rough; a hand-drawn icon would be an improvement.
 8. `tools/render-sprites.ps1`: decoded everything back; 0 pixels differ.
 
-Not done, and worth knowing: a true animated Kingambit would need the frames cut into parts with their own
-rig cells and animation sequences, which is pixel-art and animation work the editor cannot do.
+**Two-pose idle animation (added later on 2026-10-27).** The gear-spin sequence (sequence 0 of the part
+animation, file 5 front / file 14 back) only cycles parts 0,1,2,3 with no transforms, 4 game frames each. So:
+
+- Frame 0 and frame 4 of each GIF (the extreme of the bob, found with `tools/gif-frame-diffs.ps1`) sit side by
+  side on the rig sheet at (0,0) and (96,0); `tools/make-sprite-pngs.ps1` builds that sheet when a `*-b.png` exists.
+- `tools/patch-rig-cells.ps1 -HostParts 0,1 -HostPartsB 2,3`: parts 0–1 show pose A, parts 2–3 show pose B.
+- The 4-frame step would flicker at 15 Hz, so `tools/make-nanr-slow.ps1` set every step of sequence 0 to 16
+  frames: each pose holds about 0.53 s, a 1.07 s bob. The result was recompressed with
+  `tools/lz11-compress-optimal.ps1` (the greedy one was a few bytes too big) and written in place with
+  `tools/patch-narc-entry.ps1`, zero-padded to the original entry size.
+
+A true rig (body parts with their own motion) would still be a pixel-art and animation project the editor cannot do.
 
 Rule when mixing the two: the editor saves from memory, so after any script patch, reload the ROM in the
 editor ("Open Rom") before the editor saves again, or the patch is lost. A dated backup goes in

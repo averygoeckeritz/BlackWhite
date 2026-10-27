@@ -22,7 +22,19 @@ foreach ($name in "front","back") {
         $sprite.SetPixel($x, $y, $col); $rig.SetPixel($RigX + $x, $RigY + $y, $col)
     } }
     $sprite.Save("$OutDir\$name.png", [System.Drawing.Imaging.ImageFormat]::Png)
+    # optional second pose ($name-b.png) goes on the rig sheet at (RigX + 96, RigY)
+    $bPath = "$StaticDir\$name-b.png"; $unmatchedB = 0
+    if (Test-Path $bPath) {
+        $srcB = [System.Drawing.Bitmap]::FromFile($bPath)
+        for ($y = 0; $y -lt 96; $y++) { for ($x = 0; $x -lt 96; $x++) {
+            $c = $srcB.GetPixel($x, $y); if ($c.A -eq 0) { continue }
+            $h = "{0:X2}{1:X2}{2:X2}" -f $c.R, $c.G, $c.B; if ($merge[$h]) { $h = $merge[$h] }
+            if (-not $lookup[$h]) { $unmatchedB++; continue }
+            $rig.SetPixel($RigX + 96 + $x, $RigY + $y, (Hex2Color $lookup[$h]))
+        } }
+        $srcB.Dispose()
+    }
     $rig.Save("$OutDir\$name-rig.png", [System.Drawing.Imaging.ImageFormat]::Png)
-    "$name`: written $name.png and $name-rig.png, unmatched pixels: $unmatched"
+    "$name`: written $name.png and $name-rig.png, unmatched pixels: $unmatched (second pose: $(if (Test-Path $bPath) { "yes, unmatched $unmatchedB" } else { 'none' }))"
     $src.Dispose(); $sprite.Dispose(); $rig.Dispose()
 }

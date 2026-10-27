@@ -1,4 +1,5 @@
-param([string]$Rom, [int]$Species = 601, [int]$Size = 96, [int[]]$HostParts = @(0,1,2,3), [switch]$Apply)
+param([string]$Rom, [int]$Species = 601, [int]$Size = 96, [int[]]$HostParts = @(0,1,2,3), [int[]]$HostPartsB = @(), [int]$BX = 96, [switch]$Apply)
+# $HostPartsB: parts that show a second pose stored at sheet (BX, 0) instead of (0, 0).
 # Rewrites the battle "rig cells" (part rectangles) of a species in place, files 8 (front) and 17 (back) of its
 # 20-file set in a/0/0/4. Layout (from the editor source): byte 0 = part count; part i at 12 + i*48:
 #   spriteX, spriteY (int, 1/256 px), width, height, cellX, cellY (int, 1/4096 px), then the same 6 ints for the sub cell.
@@ -31,8 +32,10 @@ foreach ($which in @(@{ idx = 8; label = 'front' }, @{ idx = 17; label = 'back' 
         $o = $st + 12 + $i*48
         $cur = "sprite ({0},{1}) size {2}x{3} at sheet ({4},{5})" -f ((I32 $o)/0x100), ((I32 ($o+4))/0x100), ((I32 ($o+8))/0x1000), ((I32 ($o+12))/0x1000), ((I32 ($o+16))/0x1000), ((I32 ($o+20))/0x1000)
         $half = [int]($Size / 2); $sx = [int](0 - $half * 0x100); $sy = [int]($half * 0x100); $wh = [int]($Size * 0x1000)
-        if ($HostParts -contains $i) { $new = @($sx, $sy, $wh, $wh, 0, 0) } else { $new = @(0, 0, 0x8000, 0x8000, 0xF8000, 0x78000) }
-        if ($i -lt 6 -or $HostParts -contains $i) { "  part $i`: $cur" }
+        if ($HostPartsB -contains $i) { $new = @($sx, $sy, $wh, $wh, [int]($BX * 0x1000), 0) }
+        elseif ($HostParts -contains $i) { $new = @($sx, $sy, $wh, $wh, 0, 0) }
+        else { $new = @(0, 0, 0x8000, 0x8000, 0xF8000, 0x78000) }
+        if ($i -lt 6 -or $HostParts -contains $i -or $HostPartsB -contains $i) { "  part $i`: $cur" }
         if ($Apply) { $fs.Position = $o; foreach ($v in $new) { $bw.Write([int]$v) }; for ($k = 0; $k -lt 6; $k++) { $bw.Write([int]0) } }
     }
 }
