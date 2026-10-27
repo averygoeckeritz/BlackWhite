@@ -12,7 +12,7 @@ Source data: PokeAPI (Scarlet/Violet learnset in [`kingambit-gen9-learnset.json`
 | Type | Dark / Steel |
 | Base stats | 100 HP / 135 Atk / 120 Def / 60 SpA / 85 SpD / 50 Spe (550) |
 | EV yield | 3 Attack |
-| Abilities | Defiant / Pressure *(Supreme Overlord doesn't exist in Gen 5; see below)* |
+| Abilities | Defiant / Pressure. Decided 2026-10-27: Supreme Overlord is a stretch goal for after the patch ships, since it needs new battle-engine ASM, not editor data. |
 | Catch rate | 25 |
 | Base experience | 275 |
 | Base happiness | 50 |

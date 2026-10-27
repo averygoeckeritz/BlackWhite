@@ -28,6 +28,7 @@ and becomes Bisharp's evolution.
 - [ ] Fix trainers and wild encounters that used Klinklang
 - [ ] Test in an emulator, then in Delta
 - [ ] Make the `.xdelta` patch
+- [ ] Stretch, after the patch ships: Supreme Overlord as a new ability (needs battle-engine ASM; no editor support)
 
 ### Credits
 
