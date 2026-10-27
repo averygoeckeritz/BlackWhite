@@ -25,8 +25,14 @@ and becomes Bisharp's evolution.
 - [x] Kowtow Cleave: rebuild Clamp (#128) as Kowtow Cleave (2026-10-27)
 - [x] Import sprites and palettes (2026-10-27: static front/back/shinies and party icon; see `docs/setup.md`)
 - [x] Fix trainers and wild encounters that used Klinklang (2026-10-27)
-- [ ] Test in an emulator, then in Delta
-- [ ] Make the `.xdelta` patch
+- [x] Boot test in melonDS (2026-10-27): the edited ROM loads, plays the intro and reaches the overworld
+- [ ] In-game check of Kingambit (sprite, icon, dex entry, Kowtow Cleave, evolution): not done. A test ROM with
+      Kingambit in Route 19's grass is at `rom/White2Redux-Kingambit-TEST.nds` (not for release); on a phone with
+      an existing save this is quicker to check in Delta
+- [ ] Make the `.xdelta` patch. Not done on 2026-10-27: DeltaPatcher (winget) crashes on launch here and the
+      xdelta3 download was blocked, so this needs xdelta3 run by hand:
+      `xdelta3 -e -s rom\White2Redux-original.nds rom\White2Redux-Kingambit.nds patch\White2Redux-Kingambit.xdelta`.
+      Interim: the editor's own patch format in `patch/` (apply with Frost's Gen 5 Editor → Apply Patch)
 - [ ] Stretch, after the patch ships: Supreme Overlord as a new ability (needs battle-engine ASM; no editor support)
 
 ### Credits
