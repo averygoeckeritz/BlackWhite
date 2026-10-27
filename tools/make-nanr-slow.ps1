@@ -1,8 +1,9 @@
-param([string]$In, [string]$OutFile, [int]$Seq = 0, [int]$Duration = 0, [int[]]$Durations = @(40, 8, 24, 8))
+param([string]$In, [string]$OutFile, [int]$Seq = 0, [int]$Duration = 0, [int[]]$Durations = @(52, 8, 32, 8))
 # -Duration N sets every step to N. Otherwise -Durations is a pattern applied cyclically over the steps (default
-# A 40, B 8, C 24, B 8 = 80 frames = 1.33 s, between Pawniard's and Bisharp's idle cadence; see docs/setup.md).
+# A 52, B 8, C 32, B 8 = 100 frames = 1.67 s, next to Bisharp's 1.63 s idle cadence; see docs/setup.md).
 # History: 4 (original gears, flickers), 16 uniform (1.07 s, too fast), 48 uniform (3.2 s, too slow),
-# 40/12/28/12 (back file could not be padded to its entry size), 40/8/24/8 (current).
+# 40/12/28/12 (back file could not fill its entry size exactly), 40/8/24/8 (1.33 s), 52/10/32/10 (same size
+# problem as 40/12/28/12), 52/8/32/8 (current).
 # Rewrites every frame duration of one RNAN sequence (decompressed input) and writes the result as a valid
 # LZ11 stream using literal-only encoding (no back references; always decodes correctly, just not small).
 $b = [IO.File]::ReadAllBytes($In)

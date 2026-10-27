@@ -160,18 +160,21 @@ animation, file 5 front / file 14 back) only cycles parts 0,1,2,3 with no transf
 - The 4-frame step would flicker at 15 Hz, so `tools/make-nanr-slow.ps1` rewrites the step durations of
   sequence 0. Uniform 16 (1.07 s) was too fast on the phone and uniform 48 (3.2 s) too slow, so
   `tools/dump-nanr-all.ps1` surveyed real idles: Bisharp 1.63 s, Pawniard 1.37, Lucario 0.90, Scizor 1.05,
-  Tyranitar 1.47, Excadrill 2.0, Machamp 4.0, all with eased steps of 1–8 frames. Kingambit now uses
-  A 40 / B 8 / C 24 / B 8 frames: a 1.33 s breath that rests on the base pose, between Pawniard's and
-  Bisharp's cadence. (40/12/28/12 was the first choice, but the back-sprite file then compressed to 393 bytes
-  with its token count on a flag-byte boundary, so it could not be padded to the 394-byte entry exactly;
-  40/8/24/8 was the nearest pattern that fits.) The result was recompressed with
-  `tools/lz11-compress-optimal.ps1` (the greedy one was a few bytes too big) and written in place with
-  `tools/patch-narc-entry.ps1`, zero-padded to the original entry size.
+  Tyranitar 1.47, Excadrill 2.0, Machamp 4.0, all with eased steps of 1–8 frames. Kingambit went through
+  A 40 / B 8 / C 24 / B 8 (1.33 s) and now uses A 52 / B 8 / C 32 / B 8 frames: a 1.67 s breath that rests
+  on the base pose, in the 1.5–2 s band next to Bisharp's 1.63 s. (40/12/28/12 and 52/10/32/10 were the first
+  choices each time, but the back-sprite file then compressed to 393 bytes with its token count on a flag-byte
+  boundary, so it could not fill the 394-byte entry exactly; the /8 patterns were the nearest that fit.) The
+  result was recompressed with `tools/lz11-compress-optimal.ps1 -ExactSize` (the greedy one was a few bytes
+  too big) and written in place with `tools/patch-narc-entry.ps1`.
 
 **Three poses (later the same day).** The 96-wide frames waste columns, so `tools/make-rig-sheet-poses.ps1` crops
 each pose to Kingambit's real width (front 72 px from x=10, back 64 px from x=18) and fits three poses on the
-sheet: frames 0, 2 and 4 of the GIFs. `tools/patch-rig-cells-poses.ps1` maps parts 0,1,2,3 to poses A,B,C,B with
-the sprite X offset shifted to match the crop (-38 front, -30 back), so the bob eases through a middle frame.
+sheet. `tools/patch-rig-cells-poses.ps1` maps parts 0,1,2,3 to poses A,B,C,B with the sprite X offset shifted
+to match the crop (-38 front, -30 back), so the bob eases through a middle frame. The poses were first GIF
+frames 0, 2 and 4, but frame 4 (the fully crouched extreme) read as too strong a dip, so the sheet now uses
+frames 0, 1 and 2: C is the GIF's half-way crouch and B the step before it. Only the sheet PNGs changed; the
+cells and the animation file are the same.
 
 Two editor lessons from this step: the editor's loader throws "There was an error in the XML file of language"
 (a misleading catch-all) when a compressed sprite entry has unused trailing bytes, so an in-place replacement
