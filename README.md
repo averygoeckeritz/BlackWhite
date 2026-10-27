@@ -29,10 +29,10 @@ and becomes Bisharp's evolution.
 - [ ] In-game check of Kingambit (sprite, icon, dex entry, Kowtow Cleave, evolution): not done. A test ROM with
       Kingambit in Route 19's grass is at `rom/White2Redux-Kingambit-TEST.nds` (not for release); on a phone with
       an existing save this is quicker to check in Delta
-- [ ] Make the `.xdelta` patch. Not done on 2026-10-27: DeltaPatcher (winget) crashes on launch here and the
-      xdelta3 download was blocked, so this needs xdelta3 run by hand:
-      `xdelta3 -e -s rom\White2Redux-original.nds rom\White2Redux-Kingambit.nds patch\White2Redux-Kingambit.xdelta`.
-      Interim: the editor's own patch format in `patch/` (apply with Frost's Gen 5 Editor → Apply Patch)
+- [x] Make the patch (2026-10-27): `patch/White2Redux-Kingambit.bps`, built with `tools/bps.ps1` and verified by
+      applying it back onto the untouched ROM (identical SHA-256). Apply it with
+      [Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/) on a Volt White 2 Redux v1.4.1 ROM. The xdelta
+      format was dropped: no xdelta tool could be installed here. `patch/*.Vpatch` is the editor's own format.
 - [ ] Stretch, after the patch ships: Supreme Overlord as a new ability (needs battle-engine ASM; no editor support)
 
 ### Credits
