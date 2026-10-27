@@ -26,9 +26,10 @@ and becomes Bisharp's evolution.
 - [x] Import sprites and palettes (2026-10-27: front/back/shinies with a three-pose slow-breath idle animation (A B C B, 2.0 s with a long rest), and the party icon; see `docs/setup.md`)
 - [x] Fix trainers and wild encounters that used Klinklang (2026-10-27)
 - [x] Boot test in melonDS (2026-10-27): the edited ROM loads, plays the intro and reaches the overworld
-- [ ] In-game check of Kingambit (sprite, icon, dex entry, Kowtow Cleave, evolution): not done. A test ROM with
-      Kingambit in Route 19's grass is at `rom/White2Redux-Kingambit-TEST.nds` (not for release); on a phone with
-      an existing save this is quicker to check in Delta
+- [x] In-game check of Kingambit (2026-10-27): wild Kingambit battles on Route 19 in melonDS and in Delta on the phone
+      (sprite, icon, idle animation). A test ROM with Kingambit in Route 19's grass is at
+      `rom/White2Redux-Kingambit-TEST.nds` (not for release). The finished ROM lives in Google Drive as
+      `My Drive\Pokémon\White 2 Redux Ultra.nds`
 - [x] Make the patch (2026-10-27): `patch/White2Redux-Kingambit.bps`, built with `tools/bps.ps1` and verified by
       applying it back onto the untouched ROM (identical SHA-256). Apply it with
       [Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/) on a Volt White 2 Redux v1.4.1 ROM. The xdelta
