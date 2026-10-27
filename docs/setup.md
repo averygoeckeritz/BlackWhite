@@ -157,9 +157,14 @@ animation, file 5 front / file 14 back) only cycles parts 0,1,2,3 with no transf
 - Frame 0 and frame 4 of each GIF (the extreme of the bob, found with `tools/gif-frame-diffs.ps1`) sit side by
   side on the rig sheet at (0,0) and (96,0); `tools/make-sprite-pngs.ps1` builds that sheet when a `*-b.png` exists.
 - `tools/patch-rig-cells.ps1 -HostParts 0,1 -HostPartsB 2,3`: parts 0–1 show pose A, parts 2–3 show pose B.
-- The 4-frame step would flicker at 15 Hz, so `tools/make-nanr-slow.ps1` set every step of sequence 0 to 16
-  frames (a 1.07 s bob). Avery found that still too fast on the phone, so it is now 48 frames per step:
-  each pose holds 0.8 s, a 3.2 s breath. The result was recompressed with
+- The 4-frame step would flicker at 15 Hz, so `tools/make-nanr-slow.ps1` rewrites the step durations of
+  sequence 0. Uniform 16 (1.07 s) was too fast on the phone and uniform 48 (3.2 s) too slow, so
+  `tools/dump-nanr-all.ps1` surveyed real idles: Bisharp 1.63 s, Pawniard 1.37, Lucario 0.90, Scizor 1.05,
+  Tyranitar 1.47, Excadrill 2.0, Machamp 4.0, all with eased steps of 1–8 frames. Kingambit now uses
+  A 40 / B 8 / C 24 / B 8 frames: a 1.33 s breath that rests on the base pose, between Pawniard's and
+  Bisharp's cadence. (40/12/28/12 was the first choice, but the back-sprite file then compressed to 393 bytes
+  with its token count on a flag-byte boundary, so it could not be padded to the 394-byte entry exactly;
+  40/8/24/8 was the nearest pattern that fits.) The result was recompressed with
   `tools/lz11-compress-optimal.ps1` (the greedy one was a few bytes too big) and written in place with
   `tools/patch-narc-entry.ps1`, zero-padded to the original entry size.
 

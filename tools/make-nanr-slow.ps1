@@ -1,5 +1,8 @@
-param([string]$In, [string]$OutFile, [int]$Seq = 0, [int]$Duration = 48)
-# Duration history: 4 (original gears, flickers), 16 (1.07 s bob, too fast on a phone), 48 (3.2 s breath, current).
+param([string]$In, [string]$OutFile, [int]$Seq = 0, [int]$Duration = 0, [int[]]$Durations = @(40, 8, 24, 8))
+# -Duration N sets every step to N. Otherwise -Durations is a pattern applied cyclically over the steps (default
+# A 40, B 8, C 24, B 8 = 80 frames = 1.33 s, between Pawniard's and Bisharp's idle cadence; see docs/setup.md).
+# History: 4 (original gears, flickers), 16 uniform (1.07 s, too fast), 48 uniform (3.2 s, too slow),
+# 40/12/28/12 (back file could not be padded to its entry size), 40/8/24/8 (current).
 # Rewrites every frame duration of one RNAN sequence (decompressed input) and writes the result as a valid
 # LZ11 stream using literal-only encoding (no back references; always decodes correctly, just not small).
 $b = [IO.File]::ReadAllBytes($In)
@@ -7,8 +10,9 @@ function U16($o) { return [BitConverter]::ToUInt16($b, $o) }
 function I32($o) { return [BitConverter]::ToInt32($b, $o) }
 $framesStart = (U16 0x20) + 0x18
 $h = 0x30 + 0x10 * $Seq; $frameCount = I32 $h; $seqStart = (I32 ($h + 0xC)) + $framesStart
-for ($j = 0; $j -lt $frameCount; $j++) { [BitConverter]::GetBytes([uint16]$Duration).CopyTo($b, $seqStart + 8*$j + 4) }
-"seq $Seq`: $frameCount frames set to $Duration each ($([Math]::Round($frameCount*$Duration/60,2)) s per loop)"
+$total = 0
+for ($j = 0; $j -lt $frameCount; $j++) { $d = $(if ($Duration -gt 0) { $Duration } else { $Durations[$j % $Durations.Count] }); $total += $d; [BitConverter]::GetBytes([uint16]$d).CopyTo($b, $seqStart + 8*$j + 4) }
+"seq $Seq`: $frameCount frames, durations $(if ($Duration -gt 0) { "$Duration each" } else { "pattern $($Durations -join '/')" }), $total frames = $([Math]::Round($total/60,2)) s per loop"
 # LZ11 literal-only: header 0x11 + 24-bit size, then groups of 8 literals preceded by a 0x00 flag byte
 $out = New-Object System.Collections.Generic.List[byte]
 $out.Add(0x11); $out.Add([byte]($b.Length -band 0xFF)); $out.Add([byte](($b.Length -shr 8) -band 0xFF)); $out.Add([byte](($b.Length -shr 16) -band 0xFF))
