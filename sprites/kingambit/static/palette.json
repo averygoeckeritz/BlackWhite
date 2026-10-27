@@ -1,0 +1,157 @@
+﻿{
+    "merge":  {
+                  "78621F":  "846B22"
+              },
+    "entries":  [
+                    {
+                        "index":  1,
+                        "src":  "414152",
+                        "rgb":  "424252",
+                        "val555":  10504,
+                        "shinySrc":  "414152",
+                        "shinyRgb":  "424252",
+                        "shinyVal555":  10504,
+                        "count":  1060
+                    },
+                    {
+                        "index":  2,
+                        "src":  "626273",
+                        "rgb":  "636373",
+                        "val555":  14732,
+                        "shinySrc":  "626273",
+                        "shinyRgb":  "636373",
+                        "shinyVal555":  14732,
+                        "count":  678
+                    },
+                    {
+                        "index":  3,
+                        "src":  "292929",
+                        "rgb":  "292929",
+                        "val555":  5285,
+                        "shinySrc":  "292929",
+                        "shinyRgb":  "292929",
+                        "shinyVal555":  5285,
+                        "count":  674
+                    },
+                    {
+                        "index":  4,
+                        "src":  "101010",
+                        "rgb":  "101010",
+                        "val555":  2114,
+                        "shinySrc":  "101010",
+                        "shinyRgb":  "101010",
+                        "shinyVal555":  2114,
+                        "count":  510
+                    },
+                    {
+                        "index":  5,
+                        "src":  "C53131",
+                        "rgb":  "C63131",
+                        "val555":  6360,
+                        "shinySrc":  "5241DE",
+                        "shinyRgb":  "5242DE",
+                        "shinyVal555":  27914,
+                        "count":  362
+                    },
+                    {
+                        "index":  6,
+                        "src":  "B59515",
+                        "rgb":  "B59C18",
+                        "val555":  3702,
+                        "shinySrc":  "B59515",
+                        "shinyRgb":  "B59C18",
+                        "shinyVal555":  3702,
+                        "count":  322
+                    },
+                    {
+                        "index":  7,
+                        "src":  "943141",
+                        "rgb":  "943142",
+                        "val555":  8402,
+                        "shinySrc":  "31399C",
+                        "shinyRgb":  "31399C",
+                        "shinyVal555":  19686,
+                        "count":  304
+                    },
+                    {
+                        "index":  8,
+                        "src":  "846B22",
+                        "rgb":  "846B29",
+                        "val555":  5552,
+                        "shinySrc":  "78621F",
+                        "shinyRgb":  "7B6321",
+                        "shinyVal555":  4495,
+                        "count":  210
+                    },
+                    {
+                        "index":  9,
+                        "src":  "DEDEDE",
+                        "rgb":  "DEDEDE",
+                        "val555":  28539,
+                        "shinySrc":  "DEDEDE",
+                        "shinyRgb":  "DEDEDE",
+                        "shinyVal555":  28539,
+                        "count":  196
+                    },
+                    {
+                        "index":  10,
+                        "src":  "E6BD41",
+                        "rgb":  "E7BD42",
+                        "val555":  8956,
+                        "shinySrc":  "E6BD41",
+                        "shinyRgb":  "E7BD42",
+                        "shinyVal555":  8956,
+                        "count":  196
+                    },
+                    {
+                        "index":  11,
+                        "src":  "ACA4B4",
+                        "rgb":  "ADA5B5",
+                        "val555":  23189,
+                        "shinySrc":  "ACA4B4",
+                        "shinyRgb":  "ADA5B5",
+                        "shinyVal555":  23189,
+                        "count":  149
+                    },
+                    {
+                        "index":  12,
+                        "src":  "EB5450",
+                        "rgb":  "EF5A52",
+                        "val555":  10621,
+                        "shinySrc":  "EB5450",
+                        "shinyRgb":  "EF5A52",
+                        "shinyVal555":  10621,
+                        "count":  139
+                    },
+                    {
+                        "index":  13,
+                        "src":  "6A1818",
+                        "rgb":  "6B1818",
+                        "val555":  3181,
+                        "shinySrc":  "2E2941",
+                        "shinyRgb":  "312942",
+                        "shinyVal555":  8358,
+                        "count":  113
+                    },
+                    {
+                        "index":  14,
+                        "src":  "524120",
+                        "rgb":  "524221",
+                        "val555":  4362,
+                        "shinySrc":  "524120",
+                        "shinyRgb":  "524221",
+                        "shinyVal555":  4362,
+                        "count":  45
+                    },
+                    {
+                        "index":  15,
+                        "src":  "7B7B7B",
+                        "rgb":  "7B7B7B",
+                        "val555":  15855,
+                        "shinySrc":  "7B7B7B",
+                        "shinyRgb":  "7B7B7B",
+                        "shinyVal555":  15855,
+                        "count":  14
+                    }
+                ]
+}
