@@ -23,9 +23,8 @@ and becomes Bisharp's evolution.
 - [x] Install the editor on a computer and do the Fairy-type fix (2026-10-27)
 - [x] Edit species data, learnset, TMs, evolution, name and Pokédex text (2026-10-27, byte-verified)
 - [x] Kowtow Cleave: rebuild Clamp (#128) as Kowtow Cleave (2026-10-27)
-- [ ] Rebuild the shiny back sprite as a palette swap of the normal back (15 colours max)
-- [ ] Import sprites and palettes
-- [ ] Fix trainers and wild encounters that used Klinklang
+- [x] Import sprites and palettes (2026-10-27: static front/back/shinies and party icon; see `docs/setup.md`)
+- [x] Fix trainers and wild encounters that used Klinklang (2026-10-27)
 - [ ] Test in an emulator, then in Delta
 - [ ] Make the `.xdelta` patch
 - [ ] Stretch, after the patch ships: Supreme Overlord as a new ability (needs battle-engine ASM; no editor support)

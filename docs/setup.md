@@ -122,6 +122,35 @@ once. What worked:
   Klinklang users with no custom moves (trainer ids 135 at lv 77 and 744 at lv 79, likely PWT or similar);
   they become Kingambit automatically and use the last four level-up moves.
 
+## How the sprite step was done (2026-10-27)
+
+Gen 5 battle sprites are not frame animations. Each Pokémon has a 256×128 "rig" sheet of body parts; a parts
+file (file 8 of the species' 20-file set in `a/0/0/4`) lists each part's rectangle on the sheet and its position,
+and the animation file (file 5) cycles part indices and moves them. Klinklang's gears "spin" by cycling four
+pre-drawn gears (parts 0–3). There is also a static 96×96 sprite (file 0, stored scrambled as a 64×144 tile sheet)
+and one 16-colour palette shared by front and back (files 18/19 for normal/shiny). All of this came from reading
+the editor's source on GitHub (`Data/NARCTypes/PokemonSpritesNARC.cs`).
+
+So Kingambit is **static** in battle. What was done, all verified by decoding the saved ROM back to PNG:
+
+1. `tools/gif-frame-to-png.ps1`: frame 0 of each Ghasty001 GIF → `sprites/kingambit/static/`.
+2. `tools/build-kingambit-palette.ps1`: one palette for front + back. The union was 16 colours, one too many, so
+   the front's dark gold 78621F became the back's 846B22. Shiny palette from the front's 1:1 colour map.
+   Values go through the editor's 15-bit rounding so the import PNGs match exactly.
+3. `tools/patch-sprite-palette.ps1`: wrote both palettes into the ROM in place (index 0 untouched).
+4. `tools/patch-rig-cells.ps1`: parts 0–3 of the front and back rigs became one 96×96 window at sheet (0,0),
+   centred on the origin; every other part became an 8×8 window in the empty corner, so it draws nothing.
+5. `tools/make-sprite-pngs.ps1`: exact-colour `front.png`, `back.png` and 256×128 rig sheets with the sprite at (0,0).
+6. In the editor's Sprite Editor (Pokemon Editor → Sprite Editor): Import Image for Front Sprite, Front Rig,
+   Back Sprite and Back Rig, then Save Rom. This is the only sprite step the editor does (LZ11 compression and
+   the NARC rebuild).
+7. `tools/make-icon.ps1`: 32×64 party icon (two frames) from the front sprite, snapped to icon palette 0, written
+   in place into `a/0/0/7`. It is a downscale, so it is rough; a hand-drawn icon would be an improvement.
+8. `tools/render-sprites.ps1`: decoded everything back; 0 pixels differ.
+
+Not done, and worth knowing: a true animated Kingambit would need the frames cut into parts with their own
+rig cells and animation sequences, which is pixel-art and animation work the editor cannot do.
+
 Rule when mixing the two: the editor saves from memory, so after any script patch, reload the ROM in the
 editor ("Open Rom") before the editor saves again, or the patch is lost. A dated backup goes in
 `rom/backups/` after every step.
