@@ -10,6 +10,8 @@ encounters; text; Pokémon sprites and icons (experimental); and making a patch.
   (v5.0.1) or [GitHub](https://github.com/FrostFalcon/FrostsGen5Editor)
 - Platform: a Windows (.NET) desktop app. On a Mac it needs a Windows virtual machine or a compatibility layer.
 - Fully supports Black 2 / White 2, and says it works with ROM hacks.
+- Installed on Avery's PC (2026-10-26): `C:\Users\avery\Tools\FrostsGen5Editor\FrostsGen5Editor.exe` (v5.0.1, needs .NET Framework 4.8, which is present).
+  The zip also ships `Patches\White2Fairy.Vpatch`; check whether the editor applies it as part of the Fairy fix below.
 
 ### Required first step for Redux (Fairy type)
 
