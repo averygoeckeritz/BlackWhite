@@ -189,6 +189,22 @@ are both free now, so later tweaks are a script run, not an editor session.
 A 74 / B 14 / C 18 / B 14 frames = 120 frames = 2.0 s per loop, with 1.23 s of rest on the base pose. The back
 sequence went back to 4 steps (395-byte entry, written with `grow-narc-entry.ps1`); the front keeps 32 steps.
 
+**Fourth pose, the full dip (current).** Avery wanted the GIF's deepest frame back as a fourth pose D after a quiet
+breath: A B C B C D C B at A 70 / B 14 / C 16 / B 14 / C 14 / D 20 / C 14 / B 14 frames = 176 frames = 2.93 s.
+Poses are GIF frames 0, 1, 2 and 4. The back fits four 64-wide columns on the 256-wide sheet. The front's 72-wide
+poses only fit three columns, so D goes into the unused 32-row strip under them as three 72x32 bands
+(`make-rig-sheet-poses.ps1 -BandPose`). A rig part is a single textured quad and a sequence frame shows one part,
+so D is three parts (3, 5, 7) driven by three sequences in step: sequence 0 shows A/B/C/D-top, sequence 1 shows
+D-middle (part 5) only during the D step and the blank corner window (part 4) otherwise, sequence 2 the same with
+D-bottom (7) and blank (6). All three have identical step durations, so they stay locked. Parts come from an
+explicit list now (`patch-rig-cells-spec.ps1`: x, y of the quad's top-left relative to its pivot, Y up, width,
+height, sheet u, v); the three band quads sit at y 48, 16 and -16. The first try drew the bands from three
+different pivots: the cell file holds only the quad's offset from its pivot, and each *sequence's* pivot comes
+from the RCMN file (file 6 front / 15 back, "KBCM" block: 18 entries of u16 sequence, s16 x, s16 y, u8 flags,
+u8 order; sequence 0 of the old Klinklang rig sits at (0,-40), its gear sequences elsewhere). Setting sequences
+1 and 2 to (0,-40) as well (`patch-bytes.ps1` on entry 12026) lines the bands up. The editor opens the ROM fine
+after the in-place NARC rewrites.
+
 Two editor lessons from this step: the editor's loader throws "There was an error in the XML file of language"
 (a misleading catch-all) when a compressed sprite entry has unused trailing bytes, so an in-place replacement
 must fill the entry exactly (`lz11-compress-optimal.ps1 -ExactSize`); and PowerShell unrolls a List returned from a
