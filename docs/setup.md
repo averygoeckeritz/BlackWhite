@@ -162,6 +162,16 @@ animation, file 5 front / file 14 back) only cycles parts 0,1,2,3 with no transf
   `tools/lz11-compress-optimal.ps1` (the greedy one was a few bytes too big) and written in place with
   `tools/patch-narc-entry.ps1`, zero-padded to the original entry size.
 
+**Three poses (later the same day).** The 96-wide frames waste columns, so `tools/make-rig-sheet-poses.ps1` crops
+each pose to Kingambit's real width (front 72 px from x=10, back 64 px from x=18) and fits three poses on the
+sheet: frames 0, 2 and 4 of the GIFs. `tools/patch-rig-cells-poses.ps1` maps parts 0,1,2,3 to poses A,B,C,B with
+the sprite X offset shifted to match the crop (-38 front, -30 back), so the bob eases through a middle frame.
+
+Two editor lessons from this step: the editor's loader throws "There was an error in the XML file of language"
+(a misleading catch-all) when a compressed sprite entry has unused trailing bytes, so an in-place replacement
+must fill the entry exactly (`lz11-compress-optimal.ps1 -ExactSize`); and PowerShell unrolls a List returned from a
+function unless you `return ,$list`.
+
 A true rig (body parts with their own motion) would still be a pixel-art and animation project the editor cannot do.
 
 Rule when mixing the two: the editor saves from memory, so after any script patch, reload the ROM in the
