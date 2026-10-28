@@ -271,6 +271,14 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    It also floated: the Showdown sprites stand with their feet on row 81 of the 96 frame, Kingambit's on 92 (94
    back), and both use the same pivot. The front parts were lowered 11 px (Y 37 / 5 / -27) and the back 13 px
    (Y 35), so the feet sit where Kingambit's do. Checked in melonDS: grounded, no gaps over two blink periods.
+   Back idle (2026-10-28): no animated back exists (Showdown's gen5ani-back has only Unovan Zoroark; PokeAPI
+   and Ghasty001 have none), so `tools/make-sway-poses.ps1` builds poses from the still back: rows below 58
+   stay planted, the body above is squashed down by up to 2 px with nearest-neighbour row sampling (no seam),
+   and the tufts above row 40 lean up to 2 px. Poses squash/sway 0/0, 1/1, 2/2 in three 72-px columns of the
+   back rig, parts 0-2 (X -32, Y 35), sequence 0 = A B C B at 48/24/48/24 frames, the same 2.4 s as the front.
+   To see a back sprite in melonDS without catching one, a throwaway ROM copy swapped H-Zoroark's back files
+   (9, 11, 13-18) into the starter's slot; a/0/0/4 has little slack, so the starter's front sheet and static
+   sprite were emptied in that copy first. melonDS needs a .sav named like the ROM.
    Order matters: `patch-sprite-palette.ps1` must run BEFORE the editor import, because the editor maps the
    PNG onto the palette already in the ROM (with Durant's palette the import came out blank).
 7. Icon: Smogon pack ZOROARK_1 (the Hisuian one) via `make-icon-from-sheet.ps1` (palette 1 fit best).
