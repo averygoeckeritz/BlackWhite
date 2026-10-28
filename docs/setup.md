@@ -279,6 +279,9 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    To see a back sprite in melonDS without catching one, a throwaway ROM copy swapped H-Zoroark's back files
    (9, 11, 13-18) into the starter's slot; a/0/0/4 has little slack, so the starter's front sheet and static
    sprite were emptied in that copy first. melonDS needs a .sav named like the ROM.
+   For Avery's phone test the same swap went into the X build itself (test ROM only, never the release): space
+   came from Rayquaza's front sheet (file 7682, emptied) instead of the starter's, so Oshawott keeps its front
+   sprite, though with H-Zoroark's palette, since file 18 is shared by front and back.
    Order matters: `patch-sprite-palette.ps1` must run BEFORE the editor import, because the editor maps the
    PNG onto the palette already in the ROM (with Durant's palette the import came out blank).
 7. Icon: Smogon pack ZOROARK_1 (the Hisuian one) via `make-icon-from-sheet.ps1` (palette 1 fit best).
