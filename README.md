@@ -43,7 +43,8 @@ and becomes Bisharp's evolution.
 Hisuian Zoroark ("H-Zoroark" in-game, Normal/Ghost, Shadow Tag, hidden Illusion) replaces Durant (slot #632) and
 is a branch evolution of Zorua by Dusk Stone; Unovan Zoroark still comes at level 30. Durant's wild slots (26,
 Routes and Victory Road area) and five trainer Pokémon became Escavalier. Stats, learnset (Scarlet/Violet
-level-up set, Hex standing in for Bitter Malice), TMs (Zoroark's plus Will-O-Wisp), dex text, sprites with a
+level-up set plus Encore at 22 and Will-O-Wisp at 30, Hex standing in for Bitter Malice), TMs (Zoroark's plus
+Will-O-Wisp), dex text, sprites with a
 four-pose flowing idle (front) and a still back, party icon and the official cry are in. Details in
 `docs/setup.md`. Same patch file: `patch/White2Redux-Kingambit.bps` now carries both projects.
 

@@ -30,8 +30,10 @@ unchanged). Decided with Avery on 2026-10-27; Durant was Avery's pick for the sl
 | 12 | Shadow Sneak | 425 | |
 | 16 | Curse | 174 | |
 | 20 | Taunt | 269 | |
+| 22 | Encore | 227 | added at Avery's request (not in SV list) |
 | 24 | Knock Off | 282 | |
 | 28 | Spite | 180 | |
+| 30 | Will-O-Wisp | 261 | added at Avery's request; also TM61 |
 | 34 | Agility | 97 | |
 | 40 | Shadow Ball | 247 | |
 | 46 | Hex | 506 | stands in for Bitter Malice (not in Gen 5) |
