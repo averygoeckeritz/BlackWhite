@@ -51,7 +51,8 @@ four-pose flowing idle (front) and a still back, party icon and the official cry
 ## Balance changes (2026-10-27)
 
 Bouffalant becomes Ground/Flying with Thick Fat, new stats, U-turn by TM and Aerial Ace / Roost / Earthquake by
-level-up; every Kyurem form gets Snow Warning; Mienshao gets Magic Bounce. Details in `data/balance-changes.md`.
+level-up; every Kyurem form gets Snow Warning; Mienshao gets Magic Bounce. On 2026-10-28 Darmanitan became
+Fairy/Fire with Play Rough at level 35, and Sawsbuck became Fairy/Grass. Details in `data/balance-changes.md`.
 
 ## Release
 

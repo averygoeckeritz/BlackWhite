@@ -24,3 +24,21 @@ entries are found through Kyurem's species data: u16 at 0x1C = first form entry 
 
 Magic Bounce in all three ability slots (was Reckless / Regenerator / Reckless). Mienfoo is unchanged; an
 evolved Mienfoo keeps its slot number, so it becomes a Magic Bounce Mienshao either way.
+
+# Fairy changes (2026-10-28)
+
+Fairy is type 17 (0x11) in Redux (text file 398). Play Rough is move 66 (Redux's replacement for Submission).
+
+## Darmanitan (#555)
+
+| Field | Before | After |
+| --- | --- | --- |
+| Types | Fire | Fairy / Fire |
+| Level-up | — | + Play Rough 35 (next to Hammer Arm), so Darumaka learns it on evolving at 35 |
+
+Zen Mode Darmanitan (form entry 701) stays Fire / Psychic. Darumaka is unchanged.
+
+## Sawsbuck (#586)
+
+Normal / Grass → Fairy / Grass. The four seasonal forms share entry 586 (form entry 0 in its species data), so all
+seasons change together. Deerling is unchanged.
