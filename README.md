@@ -45,7 +45,7 @@ is a branch evolution of Zorua by Dusk Stone; Unovan Zoroark still comes at leve
 Routes and Victory Road area) and five trainer Pokémon became Escavalier. Stats, learnset (Scarlet/Violet
 level-up set plus Encore at 22 and Will-O-Wisp at 30, Hex standing in for Bitter Malice), TMs (Zoroark's plus
 Will-O-Wisp), dex text, sprites with a
-four-pose flowing idle (front) and a still back, party icon and the official cry are in. Details in
+four-pose flowing idle (front) and a back idle matched to it, party icon and the official cry are in. Details in
 `docs/setup.md`. Same patch file: `patch/White2Redux-Kingambit.bps` now carries both projects.
 
 ## Balance changes (2026-10-27)

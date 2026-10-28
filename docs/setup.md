@@ -278,6 +278,15 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    back rig, sequence 0 = A B C B at 48/24/48/24 frames, the same 2.4 s as the front. On the phone the planted
    legs looked wrong (only the top moved), so the whole sprite now also moves with the bend: parts 0/1/2 sit at
    X -32/-31/-30, Y 35/34/33 (1 px right and down per step). Legs move 2 px, the head and mane up to 4 px.
+   Matched to the front (2026-10-28): the front's poses drop the top of the sprite 0/1/4/5 px (rows 8/9/12/13)
+   with the upper body leaning about 2-4 px, feet planted, in A B C D C B at 24 frames each. The back now does
+   the same: `make-sway-poses.ps1 -Split 80 -Cut 58 -Poses "0:0;1:2;3:2"` (the squash runs down through the legs
+   and the lean through the whole mane), and D reuses C's image one step lower through a fourth cell
+   (part 3), so no banded pose or RCMN change was needed. Parts 0-3: X -32/-32/-31/-30, Y 35/35/34/33, U 0/72/
+   144/144; sequence 0 = parts 0 1 2 3 2 1 at 24 frames (2.4 s). Top of the back sprite: rows 4/5/8/9.
+   The sheet went in with `tools/write-rig-sheet.ps1` (decompress, replace the 4bpp pixels, recompress, grow the
+   entry) instead of the editor; `lz11-compress-optimal.ps1`'s match search is now compiled C# (the PowerShell
+   loop took over 10 minutes on a 16 KB sheet, now about 40 s overall).
    To see a back sprite in melonDS without catching one, a throwaway ROM copy swapped H-Zoroark's back files
    (9, 11, 13-18) into the starter's slot; a/0/0/4 has little slack, so the starter's front sheet and static
    sprite were emptied in that copy first. melonDS needs a .sav named like the ROM.

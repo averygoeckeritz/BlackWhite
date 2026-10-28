@@ -3,17 +3,25 @@ param([string]$In, [string]$OutFile, [switch]$NoPad, [int]$ExactSize = 0)
 # -ExactSize N: after parsing, trailing matches are turned into literals until the stream is exactly N bytes, so a
 # fixed-size NARC entry is fully consumed (DSDecmp-based decoders reject streams with unread trailing bytes).
 $d = [IO.File]::ReadAllBytes($In); $n = $d.Length
-# best match at every position
-$mLen = New-Object int[] $n; $mDisp = New-Object int[] $n
-for ($pos = 0; $pos -lt $n; $pos++) {
-    $bestLen = 0; $bestDisp = 0; $start = [Math]::Max(0, $pos - 4096); $max = [Math]::Min($n - $pos, 0x10110)
-    for ($s = $pos - 1; $s -ge $start; $s--) {
-        if ($d[$s] -ne $d[$pos]) { continue }
-        $len = 1; while ($len -lt $max -and $d[$s + $len] -eq $d[$pos + $len]) { $len++ }
-        if ($len -gt $bestLen) { $bestLen = $len; $bestDisp = $pos - $s; if ($len -ge $max) { break } }
+# best match at every position (compiled: in plain PowerShell this search took over 10 minutes on a 16 KB rig sheet)
+if (-not ('Lz11Match' -as [type])) { Add-Type -TypeDefinition @"
+public static class Lz11Match {
+    public static void Find(byte[] d, int[] mLen, int[] mDisp) {
+        int n = d.Length;
+        for (int pos = 0; pos < n; pos++) {
+            int bestLen = 0, bestDisp = 0, start = System.Math.Max(0, pos - 4096), max = System.Math.Min(n - pos, 0x10110);
+            for (int s = pos - 1; s >= start; s--) {
+                if (d[s] != d[pos]) continue;
+                int len = 1; while (len < max && d[s + len] == d[pos + len]) len++;
+                if (len > bestLen) { bestLen = len; bestDisp = pos - s; if (len >= max) break; }
+            }
+            mLen[pos] = bestLen; mDisp[pos] = bestDisp;
+        }
     }
-    $mLen[$pos] = $bestLen; $mDisp[$pos] = $bestDisp
 }
+"@ }
+$mLen = New-Object int[] $n; $mDisp = New-Object int[] $n
+[Lz11Match]::Find($d, $mLen, $mDisp)
 function TokBytes($len) { if ($len -le 0x10) { 2 } elseif ($len -le 0x110) { 3 } else { 4 } }
 # DP from the end: cost[i] = cheapest encoding of d[i..]; choice[i] = match length used (1 = literal)
 $cost = New-Object double[] ($n + 1); $choice = New-Object int[] ($n + 1)
