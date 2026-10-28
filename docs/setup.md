@@ -275,7 +275,9 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    and Ghasty001 have none), so `tools/make-sway-poses.ps1` builds poses from the still back: rows below 58
    stay planted, the body above is squashed down by up to 2 px with nearest-neighbour row sampling (no seam),
    and the tufts above row 40 lean up to 2 px. Poses squash/sway 0/0, 1/1, 2/2 in three 72-px columns of the
-   back rig, parts 0-2 (X -32, Y 35), sequence 0 = A B C B at 48/24/48/24 frames, the same 2.4 s as the front.
+   back rig, sequence 0 = A B C B at 48/24/48/24 frames, the same 2.4 s as the front. On the phone the planted
+   legs looked wrong (only the top moved), so the whole sprite now also moves with the bend: parts 0/1/2 sit at
+   X -32/-31/-30, Y 35/34/33 (1 px right and down per step). Legs move 2 px, the head and mane up to 4 px.
    To see a back sprite in melonDS without catching one, a throwaway ROM copy swapped H-Zoroark's back files
    (9, 11, 13-18) into the starter's slot; a/0/0/4 has little slack, so the starter's front sheet and static
    sprite were emptied in that copy first. melonDS needs a .sav named like the ROM.
