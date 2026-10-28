@@ -258,10 +258,19 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    of the whole sprite) was raised from Durant's 59x37 to 72x96.
    The first build froze the game at "A wild H-Zo…": bisected in the test ROM (original cry, then original
    rig files, then one file at a time) to the RCMN pivot table. Durant's table has no entry for sequence 1 and
-   has a special entry (id 12 at (12,96)) that my earlier "id or draw-order" match also rewrote. Lesson: the
-   first u16 of an RCMN entry IS the sequence index (the trailing byte is draw order), only sequences listed
-   there are drawn, and that special entry must be left alone. So the three D bands now ride on sequences 0, 2
-   and 3, and only those entries (plus back sequence 0) were moved to (0,-40).
+   my earlier "id or draw-order" match had overwritten a header field. Lesson: the first u16 of an RCMN entry
+   IS the sequence index (the trailing byte is draw order) and only sequences listed there are drawn. So the
+   three D bands now ride on sequences 0, 2 and 3, and only those entries (plus back sequence 0) were moved
+   to (0,-40).
+   RCMN layout, read properly later: block "KBCM", u16 multi-cell count at 0x18, then 8-byte multi-cell headers
+   at 0x2C (u16 entries, u16 entries, u32 offset from 0x3C), then the 8-byte entries from 0x3C. Klinklang has one
+   multi-cell; Durant has two, and its RAMN (file 7 front / 16 back) loops multi-cell 0 for 78 + 78 frames, then
+   multi-cell 1 (a blink set on sequences 12-23) for 74 frames. Those sequences were blanked, so on the phone the
+   sprite vanished for 1.2 s every 3.8 s. Fix: the RAMN's third frame now points at multi-cell 0 too
+   (`patch-bytes.ps1` offset 0x50 = 0 on entries 12647 and 12656).
+   It also floated: the Showdown sprites stand with their feet on row 81 of the 96 frame, Kingambit's on 92 (94
+   back), and both use the same pivot. The front parts were lowered 11 px (Y 37 / 5 / -27) and the back 13 px
+   (Y 35), so the feet sit where Kingambit's do. Checked in melonDS: grounded, no gaps over two blink periods.
    Order matters: `patch-sprite-palette.ps1` must run BEFORE the editor import, because the editor maps the
    PNG onto the palette already in the ROM (with Durant's palette the import came out blank).
 7. Icon: Smogon pack ZOROARK_1 (the Hisuian one) via `make-icon-from-sheet.ps1` (palette 1 fit best).
