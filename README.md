@@ -57,8 +57,9 @@ level-up; every Kyurem form gets Snow Warning; Mienshao gets Magic Bounce. Detai
 
 Shipped 2026-10-27 as `My Drive\Pokémon\White 2 Redux Ultra.nds` (SHA-256 2AAE26D3…6395A): Kingambit, Hisuian
 Zoroark and the balance changes, all tested by Avery on the phone. `patch/White2Redux-Kingambit.bps` turns a
-clean Volt White 2 Redux v1.4.1 ROM into exactly this file. `White 2 Redux X.nds` on Drive is the matching test
-build (Hisuian Zoroark in Route 19 grass, catch rate 255).
+clean Volt White 2 Redux v1.4.1 ROM into exactly this file. The matching test build (Hisuian Zoroark in Route
+19 grass, catch rate 255) is kept locally as `rom/White2Redux-Kingambit-TEST.nds`; it goes on Drive as
+`White 2 Redux X.nds` only while a phone test is running.
 
 ### Credits
 
