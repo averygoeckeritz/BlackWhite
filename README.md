@@ -38,6 +38,15 @@ and becomes Bisharp's evolution.
       format was dropped: no xdelta tool could be installed here. `patch/*.Vpatch` is the editor's own format.
 - [ ] Stretch, after the patch ships: Supreme Overlord as a new ability (needs battle-engine ASM; no editor support)
 
+## Project 2: Hisuian Zoroark (2026-10-27)
+
+Hisuian Zoroark ("H-Zoroark" in-game, Normal/Ghost, Shadow Tag, hidden Illusion) replaces Durant (slot #632) and
+is a branch evolution of Zorua by Dusk Stone; Unovan Zoroark still comes at level 30. Durant's wild slots (26,
+Routes and Victory Road area) and five trainer Pokémon became Escavalier. Stats, learnset (Scarlet/Violet
+level-up set, Hex standing in for Bitter Malice), TMs (Zoroark's plus Will-O-Wisp), dex text, sprites with a
+four-pose flowing idle (front) and a still back, party icon and the official cry are in. Details in
+`docs/setup.md`. Same patch file: `patch/White2Redux-Kingambit.bps` now carries both projects.
+
 ### Credits
 
 - Volt White 2 Redux: Drayano & AphexCubed
@@ -47,4 +56,7 @@ and becomes Bisharp's evolution.
 - Party icon: CarmaNekko (Gen 9 Sprite Project), from the Smogon
   [Gen 3/4/5-style menu icons for Gen 6+ Pokémon](https://www.smogon.com/forums/threads/gen-3-4-5-style-menu-icons-for-gen-6-pok%C3%A9mon.3710134/)
   pack organised by KRLW890; free for non-profit use with credit
+- Hisuian Zoroark: Gen 5-style static sprites and the animated front sprite from the Smogon Sprite Project via
+  Pokémon Showdown (`sprites/gen5`, `gen5ani`); party icon from the same Smogon menu-icon pack (ZOROARK_1)
+- Cries: official game audio via the [PokeAPI cries](https://github.com/PokeAPI/cries) archive
 - Data: PokeAPI

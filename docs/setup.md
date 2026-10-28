@@ -228,6 +228,52 @@ Rule when mixing the two: the editor saves from memory, so after any script patc
 editor ("Open Rom") before the editor saves again, or the patch is lost. A dated backup goes in
 `rom/backups/` after every step.
 
+## Project 2: Hisuian Zoroark in Durant's slot (2026-10-27)
+
+Same recipe as Kingambit, scripted end to end except the four image imports. Slot 632 (Durant) was Avery's
+pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if another is ever needed.
+
+1. Usage: `find-encounters.ps1` (a/1/2/7 only; a/1/2/6 hits are false positives from another table) and the
+   trainer part of `find-species-usage.ps1`: 26 wild slots and 5 trainer Pokémon, all moved to Escavalier (588)
+   with `patch-encounter.ps1` / `patch-bytes.ps1` (trainer entry species u16 at slot*size+4).
+2. Species data: Zoroark's 76 bytes copied onto 632 with stats 55/100/60/110/125/60, Normal/Ghost, abilities
+   23 (Shadow Tag) / 0 / 149 (Illusion), weight 730, plus TM61; EV yield left at Redux's 0.
+3. Learnset: Scarlet/Violet level-up list from PokeAPI mapped to Gen 5 move ids by name (`dump-text.ps1` file
+   403); Bitter Malice has no Gen 5 move, so Hex (506) at 46. Written with `grow-narc-entry.ps1` on a/0/1/8.
+4. Evolution: Zorua (a/0/1/9 entry 570) slot 2 = method 8 (use item), 108 (Dusk Stone), 632. Durant's entry is
+   empty already.
+5. Text: `tools/patch-text.ps1` rebuilds a text file with changed lines and writes it back through
+   `grow-narc-entry.ps1` (a round-trip self-test proved the writer byte-exact on files 90, 464 and 442 first).
+   Name "H-Zoroark" (file 90), "Baneful Fox Pokémon" (464), a new dex entry (442). a/0/0/2 had only 34 bytes of
+   slack in the ROM; 16 remain, so future text edits should stay the same length or shorter.
+6. Sprites: Showdown's Gen 5-style static front/back/shinies (96x96, 15/14 colours) and the gen5ani front GIF
+   (72x77, 24 frames of a 2.4 s hair sway; placed at (12,5) in a 96x96 frame). Palette from
+   `build-kingambit-palette.ps1 -Merge "251415=101010"` (a GIF-only near-black folded into black; the union was
+   16). Poses are GIF frames 0, 4, 8 and 12: three 72-px columns plus frame 12 as the banded fourth pose,
+   sequence A B C D C B at 24 frames each (2.4 s, the GIF's own period). The back has no animated source, so its
+   rig is one pose and a one-frame sequence. Durant's own rig animates with translations and rotations
+   (types 1/2), which `make-nanr-pattern.ps1` cannot reuse, so `tools/rebuild-nanr.ps1` writes every sequence
+   fresh from a spec (blank cell for the rest, LABL/UEXT kept). `patch-rig-cells-spec.ps1` for the parts
+   (front X -36, back X -32). The cell file's header (after the part count: u16 width, u16 height, s16 x, s16 y
+   of the whole sprite) was raised from Durant's 59x37 to 72x96.
+   The first build froze the game at "A wild H-Zo…": bisected in the test ROM (original cry, then original
+   rig files, then one file at a time) to the RCMN pivot table. Durant's table has no entry for sequence 1 and
+   has a special entry (id 12 at (12,96)) that my earlier "id or draw-order" match also rewrote. Lesson: the
+   first u16 of an RCMN entry IS the sequence index (the trailing byte is draw order), only sequences listed
+   there are drawn, and that special entry must be left alone. So the three D bands now ride on sequences 0, 2
+   and 3, and only those entries (plus back sequence 0) were moved to (0,-40).
+   Order matters: `patch-sprite-palette.ps1` must run BEFORE the editor import, because the editor maps the
+   PNG onto the palette already in the ROM (with Durant's palette the import came out blank).
+7. Icon: Smogon pack ZOROARK_1 (the Hisuian one) via `make-icon-from-sheet.ps1` (palette 1 fit best).
+8. Cry: PokeAPI 10239.ogg (1.38 s, silent after 1.2 s) trimmed to 1.25 s, +1.2 dB, 8-bit 16600 Hz = 20750
+   bytes into Durant's 20768-byte slot with `patch-cry.ps1`.
+
+Editor quirks met this time: the Sprite Editor's dropdown list rows sit about 20 px higher than the gap the
+first rows suggest (verify the selected item with a zoom before importing), and importing a 256x128 sheet into
+a 96x96 slot gives a modal "Sprite size should be 96 x 96" box that swallows later clicks until dismissed.
+PowerShell trap, now hit five times: a variable named like a `[string]` parameter (`$raw`/`$Raw`, `$spec`,
+`$merge`) silently turns the value into a string.
+
 ## Order of work
 
 1. Fairy fix (above).

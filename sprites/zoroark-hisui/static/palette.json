@@ -1,0 +1,155 @@
+﻿{
+    "merge":  "System.Collections.Hashtable",
+    "entries":  [
+                    {
+                        "index":  1,
+                        "src":  "101010",
+                        "rgb":  "101010",
+                        "val555":  2114,
+                        "shinySrc":  "101010",
+                        "shinyRgb":  "101010",
+                        "shinyVal555":  2114,
+                        "count":  923
+                    },
+                    {
+                        "index":  2,
+                        "src":  "FAFAFA",
+                        "rgb":  "FFFFFF",
+                        "val555":  32767,
+                        "shinySrc":  "FAFAFA",
+                        "shinyRgb":  "FFFFFF",
+                        "shinyVal555":  32767,
+                        "count":  624
+                    },
+                    {
+                        "index":  3,
+                        "src":  "928D96",
+                        "rgb":  "94949C",
+                        "val555":  20050,
+                        "shinySrc":  "675C64",
+                        "shinyRgb":  "6B636B",
+                        "shinyVal555":  13709,
+                        "count":  563
+                    },
+                    {
+                        "index":  4,
+                        "src":  "942429",
+                        "rgb":  "942929",
+                        "val555":  5298,
+                        "shinySrc":  "583584",
+                        "shinyRgb":  "5A3984",
+                        "shinyVal555":  16619,
+                        "count":  513
+                    },
+                    {
+                        "index":  5,
+                        "src":  "B3B3BB",
+                        "rgb":  "B5B5BD",
+                        "val555":  24278,
+                        "shinySrc":  "B3B3BB",
+                        "shinyRgb":  "B5B5BD",
+                        "shinyVal555":  24278,
+                        "count":  513
+                    },
+                    {
+                        "index":  6,
+                        "src":  "A7484F",
+                        "rgb":  "AD4A52",
+                        "val555":  10549,
+                        "shinySrc":  "89509E",
+                        "shinyRgb":  "8C52A5",
+                        "shinyVal555":  20817,
+                        "count":  491
+                    },
+                    {
+                        "index":  7,
+                        "src":  "F07376",
+                        "rgb":  "F7737B",
+                        "val555":  15838,
+                        "shinySrc":  "BE7DCC",
+                        "shinyRgb":  "C684CE",
+                        "shinyVal555":  26136,
+                        "count":  481
+                    },
+                    {
+                        "index":  8,
+                        "src":  "D53A3E",
+                        "rgb":  "D64242",
+                        "val555":  8474,
+                        "shinySrc":  "8547B8",
+                        "shinyRgb":  "8C4ABD",
+                        "shinyVal555":  23857,
+                        "count":  358
+                    },
+                    {
+                        "index":  9,
+                        "src":  "5F0002",
+                        "rgb":  "630008",
+                        "val555":  1036,
+                        "shinySrc":  "39245E",
+                        "shinyRgb":  "392963",
+                        "shinyVal555":  12455,
+                        "count":  318
+                    },
+                    {
+                        "index":  10,
+                        "src":  "CBCFD8",
+                        "rgb":  "CED6DE",
+                        "val555":  28505,
+                        "shinySrc":  "8C848A",
+                        "shinyRgb":  "8C848C",
+                        "shinyVal555":  17937,
+                        "count":  236
+                    },
+                    {
+                        "index":  11,
+                        "src":  "4A4D53",
+                        "rgb":  "4A525A",
+                        "val555":  11593,
+                        "shinySrc":  "373336",
+                        "shinyRgb":  "393939",
+                        "shinyVal555":  7399,
+                        "count":  176
+                    },
+                    {
+                        "index":  12,
+                        "src":  "6D4D62",
+                        "rgb":  "735263",
+                        "val555":  12622,
+                        "shinySrc":  "6D4D62",
+                        "shinyRgb":  "735263",
+                        "shinyVal555":  12622,
+                        "count":  60
+                    },
+                    {
+                        "index":  13,
+                        "src":  "4B163B",
+                        "rgb":  "521842",
+                        "val555":  8298,
+                        "shinySrc":  "4B163B",
+                        "shinyRgb":  "521842",
+                        "shinyVal555":  8298,
+                        "count":  53
+                    },
+                    {
+                        "index":  14,
+                        "src":  "F7ACAE",
+                        "rgb":  "F7ADB5",
+                        "val555":  23230,
+                        "shinySrc":  "D7B0D9",
+                        "shinyRgb":  "DEB5DE",
+                        "shinyVal555":  28379,
+                        "count":  41
+                    },
+                    {
+                        "index":  15,
+                        "src":  "F6EE6C",
+                        "rgb":  "F7EF73",
+                        "val555":  15294,
+                        "shinySrc":  "F6EE6C",
+                        "shinyRgb":  "F7EF73",
+                        "shinyVal555":  15294,
+                        "count":  5
+                    }
+                ]
+}
