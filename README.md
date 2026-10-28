@@ -48,6 +48,11 @@ Will-O-Wisp), dex text, sprites with a
 four-pose flowing idle (front) and a still back, party icon and the official cry are in. Details in
 `docs/setup.md`. Same patch file: `patch/White2Redux-Kingambit.bps` now carries both projects.
 
+## Balance changes (2026-10-27)
+
+Bouffalant becomes Ground/Flying with Thick Fat, new stats, U-turn by TM and Aerial Ace / Roost / Earthquake by
+level-up; every Kyurem form gets Snow Warning; Mienshao gets Magic Bounce. Details in `data/balance-changes.md`.
+
 ### Credits
 
 - Volt White 2 Redux: Drayano & AphexCubed
