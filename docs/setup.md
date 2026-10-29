@@ -299,10 +299,16 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    the sprite origin, the centre of the grass circle. H-Zoroark's back was 7 px low and 3 px left, its front
    5 px low: back cells now X -29 Y 42 (feet centred on the origin), front cells Y 42/42/42/42/10/-22. Kingambit
    is still 8 px (back) / 5 px (front) below the origin; left as Avery approved it.
-   The bigger sheet did not fit: a/0/0/4 had 93 bytes of slack. `tools/move-file-to-end.ps1` moved the whole
-   NARC to the end of the ROM (0x113A5E00, past the header's used-size value; the old copy is left unused), so
-   it can now grow freely; the tool also rewrites the header's used size (0x80) and CRC (0x15E). Run it with
-   `-FixHeaderOnly` after growing the NARC again. The X build no longer needs to empty another file for space.
+   The bigger sheet did not fit: a/0/0/4 had 93 bytes of slack. First attempt: `tools/move-file-to-end.ps1`
+   moved the whole NARC to the end of the ROM (0x113A5E00, header used size and CRC rewritten). That ran in
+   melonDS on the PC (fresh boot, and a save state from the previous build), but on Avery's phone (Delta) the
+   screen went white as soon as a battle started loading sprites. So do NOT relocate files for the release.
+   What shipped instead: the NARC stays in place and space comes from recompressing 15 sprite entries with
+   `lz11-compress-optimal.ps1` (each checked to decompress byte-identically): Kingambit 12020/12022/12029/12031,
+   H-Zoroark 12640/12642/12649, and the rig sheets 12862/12871/12882/12891/12902/12911/12922/12931 of species
+   643-646. That freed 1927 bytes; after the new sheet and NANR about 860 bytes of slack remain. The ROM keeps
+   its 289,020,416-byte size and untouched header, like every build tested on the phone. The X build still
+   empties Rayquaza's front sheet (7682) for the Oshawott swap.
    To see a back sprite in melonDS without catching one, a throwaway ROM copy swapped H-Zoroark's back files
    (9, 11, 13-18) into the starter's slot; a/0/0/4 has little slack, so the starter's front sheet and static
    sprite were emptied in that copy first. melonDS needs a .sav named like the ROM.

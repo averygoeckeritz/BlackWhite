@@ -4,6 +4,8 @@ param([string]$Rom, [string]$Path, [switch]$Apply, [switch]$FixHeaderOnly)
 # The old copy is left in place, unused. Also sets the header's "total used ROM size" (0x80) to the highest FAT
 # end and recomputes the header CRC16 (0x15E over 0x000-0x15D). -FixHeaderOnly just does that last step, for
 # after a moved file has grown.
+# WARNING: a ROM with a/0/0/4 moved this way ran in melonDS on the PC but went to a white screen on battle start
+# in Delta on Avery's phone (2026-10-28). Do not use it for builds meant for the phone; free space in place.
 $fs = [IO.File]::Open($Rom, 'Open', 'ReadWrite'); $br = New-Object IO.BinaryReader($fs); $bw = New-Object IO.BinaryWriter($fs)
 function U32($o) { $fs.Position = $o; return $br.ReadUInt32() }
 function U16($o) { $fs.Position = $o; return $br.ReadUInt16() }
