@@ -60,8 +60,8 @@ Fairy/Fire with Play Rough at level 35, and Sawsbuck became Fairy/Grass. Details
 Shipped 2026-10-27 and updated 2026-10-28 and 2026-10-29 as `My Drive\Pokémon\White 2 Redux Ultra.nds` (SHA-256
 0E7D1204…6BD55D18): Kingambit, Hisuian Zoroark (front idle with six frames of the animated sprite, back idle with
 a deeper dip and lean over six poses, feet planted, both views standing on the grass circle), the balance changes
-and the Fairy changes. The sprite work was approved by Avery; the Fairy changes have not been seen in
-a battle yet. `patch/White2Redux-Kingambit.bps` turns a
+and the Fairy changes. The sprite work was approved by Avery, and Darmanitan and Sawsbuck were checked in battle
+on 2026-10-29. `patch/White2Redux-Kingambit.bps` turns a
 clean Volt White 2 Redux v1.4.1 ROM into exactly this file. The matching test build (Hisuian Zoroark in Route
 19 grass, catch rate 255) is kept locally as `rom/White2Redux-Kingambit-TEST.nds`; it goes on Drive as
 `White 2 Redux X.nds` only while a phone test is running.
