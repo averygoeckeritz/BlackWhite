@@ -317,6 +317,24 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    sprite, though with H-Zoroark's palette, since file 18 is shared by front and back.
    Order matters: `patch-sprite-palette.ps1` must run BEFORE the editor import, because the editor maps the
    PNG onto the palette already in the ROM (with Durant's palette the import came out blank).
+   Zoroark's own animation (2026-10-29, Avery: copy Unovan Zoroark's movement, front and back). The pose-based
+   rigs above were replaced by Zoroark's rig: its NANR, RAMN and RCMN (files 5-7 / 14-16 of species 571) drive
+   H-Zoroark's still sprites cut into parts. Zoroark's idle is 12-14 parts each rotating about its own pivot
+   (type-1 frames), two multi-cells: the RAMN plays multi-cell 1 (the big 2 s motion, 21-frame sequences) for
+   120 frames, then multi-cell 0 (the 1 s breath) three times for 60. `tools/render-rig-anim.ps1` plays a rig
+   like the game (core in `tools/RigAnim.cs`); its rotation sign was settled against Showdown's recording of
+   Zoroark (gen5ani), which it matches frame for frame. `tools/build-rig-from-parts.ps1` does the re-skin from
+   `sprites/zoroark-hisui/rig/front-parts.json` / `back-parts.json`: polygons pick each part's pixels, every
+   part gets Zoroark cell numbers, a pivot and a draw order, and a few pixels of underpaint (nearest own colour)
+   beneath the parts drawn over it so no holes open when they move. Mapping, front: head + mane + ponytail =
+   Zoroark's head (cell 0), hanging left hair = its big mane (1), the side hair = its left arm (6), the raised
+   arm's tip = its swinging arm (8/9), the right-leg tendrils = its tail (2, with the tail's drift dropped so they
+   stay attached), collar (3), torso (5), legs (10/11) and still feet (12/13). Back: head (0) and the big mane (1)
+   bow together as Zoroark's do, the spiky fur on the left leg = its tail (2, drift dropped), torso (4), legs
+   (8/9), still feet (10/11). Parts moved over the middle of the body smeared (no real art behind them), so
+   moving parts were kept at the edges. Zoroark cells left unused point at an empty 8x8 corner of the sheet.
+   The packed sheets are smaller than the four-pose ones, so the whole change shrank a/0/0/4 by 1010 bytes. The
+   ground placement is unchanged (feet bottom on the origin, centre 2.5 front / 0 back).
 7. Icon: Smogon pack ZOROARK_1 (the Hisuian one) via `make-icon-from-sheet.ps1` (palette 1 fit best).
 8. Cry: PokeAPI 10239.ogg (1.38 s, silent after 1.2 s) trimmed to 1.25 s, +1.2 dB, 8-bit 16600 Hz = 20750
    bytes into Durant's 20768-byte slot with `patch-cry.ps1`.
