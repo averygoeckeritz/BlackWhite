@@ -358,6 +358,13 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    cycle per frame. Space: the sheet grew 1411 bytes and the cells file 1056, so 36 sprite entries of species
    637-642 and 647-649 were recompressed with `lz11-compress-optimal.ps1` (each checked to decompress
    byte-identically), freeing 2584 bytes; 822 bytes of slack remain.
+   Bigger back (2026-10-29, Avery asked for more movement like regular Zoroark): the same planted-feet style,
+   twice the depth. `make-sway-poses.ps1 -Split 80 -Cut 58 -Poses "0:0;2:2;5:4;8:6;6:5;3:2"` (dip up to 8 px,
+   lean up to 6 px toward the opponent), six poses played forward at 24 frames each (2.4 s) by
+   `build-gif-rig.ps1 -Back -Png ...` with the still back's pixel (0,0) at (-45,-82): 36 strips + blank = 37 cells,
+   each pose checked pixel for pixel. 611 more bytes came from recompressing the rig sheets of species 633-636;
+   about 355 bytes of slack remain. The X build now also empties Rayquaza's back sheet (7691) to fit the bigger
+   back files into Oshawott's slot.
 7. Icon: Smogon pack ZOROARK_1 (the Hisuian one) via `make-icon-from-sheet.ps1` (palette 1 fit best).
 8. Cry: PokeAPI 10239.ogg (1.38 s, silent after 1.2 s) trimmed to 1.25 s, +1.2 dB, 8-bit 16600 Hz = 20750
    bytes into Durant's 20768-byte slot with `patch-cry.ps1`.
