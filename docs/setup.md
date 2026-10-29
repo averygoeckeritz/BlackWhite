@@ -335,6 +335,15 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    moving parts were kept at the edges. Zoroark cells left unused point at an empty 8x8 corner of the sheet.
    The packed sheets are smaller than the four-pose ones, so the whole change shrank a/0/0/4 by 1010 bytes. The
    ground placement is unchanged (feet bottom on the origin, centre 2.5 front / 0 back).
+   On the phone the rotated parts did not look right (rotating detailed pixel art scrambles it), and a custom
+   lunge (head down/forward, arm swinging out) did not either. Rework (2026-10-29): the still sprites stay the
+   baseline and nothing rotates. Zoroark's rhythm is kept through its RAMN: breath (multi-cell 1, 2 s), three
+   flicks (multi-cell 0, 1 s each), breath, two flicks, 9 s in all, as Avery read it off the GIF. The motion is
+   written by `build-rig-from-parts.ps1`'s `motion.mcs` (one block per multi-cell, whole-pixel x/y only): the
+   sprite is cut into horizontal bands plus the arm, hair, tendrils and a still base (legs and feet). Breath: the
+   bands sink 4/4/3/3/2/1 px from the top down (a crouch). Flick: the bands shear forward 4/3/2/1/1 px (head tilt
+   and mane flick) while the arm moves out 2 px and up 1. Back: the same, mirrored, with the hanging mane and
+   the fur on the left leg instead of the arm.
 7. Icon: Smogon pack ZOROARK_1 (the Hisuian one) via `make-icon-from-sheet.ps1` (palette 1 fit best).
 8. Cry: PokeAPI 10239.ogg (1.38 s, silent after 1.2 s) trimmed to 1.25 s, +1.2 dB, 8-bit 16600 Hz = 20750
    bytes into Durant's 20768-byte slot with `patch-cry.ps1`.

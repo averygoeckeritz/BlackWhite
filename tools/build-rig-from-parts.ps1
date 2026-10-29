@@ -100,13 +100,21 @@ foreach ($s in @($cfg.zeroMove)) { if ($null -eq $s) { continue }; $sv = SeqValu
     foreach ($vp in $sv.vps) { $at = $(if ($sv.type -eq 1) { 0xC } elseif ($sv.type -eq 2) { 4 } else { -1 }); if ($at -ge 0) { [BitConverter]::GetBytes([int32]0).CopyTo($nanr, $vp + $at) } } }
 # (values shared between sequences are edited once; a shared value edited for one sequence changes the others too)
 
-# Optional own motion instead of the template's: "motion": { length (ticks), step (ticks per frame), rest (share of
-# the loop spent still), parts: { name: { rot (degrees, + = clockwise), x, y } } }. Every sequence is rewritten as
-# type 1: a part listed there follows a = (1 - cos)/2 from 0 up to 1 and back over the moving share of the loop
-# (all listed parts in step), every other part holds still on its cell. The RAMN is pinned to multi-cell 0.
+# Optional own motion instead of the template's: "motion": { step (ticks per frame), mcs: [ per multi-cell:
+# { length (ticks), rest (share of it spent still), parts: { name: { rot (degrees, + = clockwise), x, y } } } ] }.
+# Every sequence is rewritten as type 1 (rot 0 + whole-pixel x/y keeps the art exactly as drawn): a part listed for
+# the multi-cell that shows the sequence follows a = (1 - cos)/2 from 0 up to 1 and back over the moving share
+# (all listed parts in step), every other part holds still on its cell. The template's RAMN keeps choosing the
+# multi-cells (Zoroark: breath = multi-cell 1 for 2 s, flick = multi-cell 0 for 1 s, as 1 0 0 0 1 0 0). The older
+# single form { length, rest, parts } plays on multi-cell 0 only and pins the RAMN to it.
 $ramnOut = TE ($o + 7)
 if ($cfg.motion) {
-    $mo = $cfg.motion; $len = [int]$mo.length; $step = [int]$mo.step; $restShare = [double]$mo.rest
+    $mo = $cfg.motion; $step = [int]$mo.step
+    $mcMotion = $(if ($mo.mcs) { @($mo.mcs) } else { @($mo) })
+    $rcT = TE ($o + 6); $seqMc = @{}
+    for ($mm = 0; $mm -lt [BitConverter]::ToUInt16($rcT, 0x18); $mm++) {
+        $nE = [BitConverter]::ToUInt16($rcT, 0x2C + $mm*8); $oE = [BitConverter]::ToUInt32($rcT, 0x30 + $mm*8)
+        for ($ie = 0; $ie -lt $nE; $ie++) { $sq = [BitConverter]::ToUInt16($rcT, 0x3C + $oE + $ie*8); if ($seqMc.ContainsKey([int]$sq)) { $seqMc[[int]$sq] = -1 } else { $seqMc[[int]$sq] = $mm } } }
     $seqCount = [BitConverter]::ToUInt16($nanr, 0x18); $abnkSize = [BitConverter]::ToUInt32($nanr, 0x14)
     $tail = New-Object byte[] ($nanr.Length - (0x10 + $abnkSize)); [Array]::Copy($nanr, 0x10 + $abnkSize, $tail, 0, $tail.Length)
     $partOfCell = @{}; for ($q = 0; $q -lt $nParts; $q++) { foreach ($c in $parts[$q].cells) { $partOfCell[[int]$c] = $parts[$q].name } }
@@ -122,7 +130,10 @@ if ($cfg.motion) {
     $seqHdr = New-Object System.Collections.Generic.List[byte]; $frm = New-Object System.Collections.Generic.List[byte]; $totalFrames = 0
     for ($s = 0; $s -lt $seqCount; $s++) {
         $sv = SeqValues $s; $cell = [BitConverter]::ToUInt16($nanr, $sv.vps[0]); $name = $partOfCell[[int]$cell]
-        $m = $(if ($name) { $mo.parts.$name } else { $null })
+        # a sequence shown by both multi-cells (or by none) holds still
+        $mc = $(if ($seqMc.ContainsKey($s)) { $seqMc[$s] } else { -1 }); $cur = $(if ($mc -ge 0 -and $mc -lt $mcMotion.Count) { $mcMotion[$mc] } else { $null })
+        $len = $(if ($cur) { [int]$cur.length } else { 60 }); $restShare = $(if ($cur) { [double]$cur.rest } else { 0 })
+        $m = $(if ($name -and $cur) { $cur.parts.$name } else { $null })
         $frameOff = $frm.Count; $nf = 0
         if ($m) {
             for ($t = 0; $t -lt $len; $t += $step) {
@@ -146,9 +157,10 @@ if ($cfg.motion) {
     $nl = New-Object System.Collections.Generic.List[byte]; $nl.AddRange([byte[]]$nanr[0..15]); $nl.AddRange($abnk); $nl.AddRange($tail)
     $nanr = $nl.ToArray(); [BitConverter]::GetBytes([uint32]$nanr.Length).CopyTo($nanr, 8)
     $fs = [BitConverter]::ToUInt16($nanr, 0x20) + 0x18; $vs = [BitConverter]::ToUInt16($nanr, 0x24) + 0x18
-    # RAMN: every frame's multi-cell value -> 0 (values are u16 from the value offset up to the LABL block)
-    $ramnOut = $ramnOut.Clone(); $rv = [BitConverter]::ToUInt16($ramnOut, 0x24) + 0x18; $rEnd = 0x10 + [BitConverter]::ToUInt32($ramnOut, 0x14)
-    for ($k = $rv; $k + 1 -lt $rEnd; $k += 2) { $ramnOut[$k] = 0; $ramnOut[$k + 1] = 0 }
+    if (-not $mo.mcs) {
+        # RAMN: every frame's multi-cell value -> 0 (values are u16 from the value offset up to the LABL block)
+        $ramnOut = $ramnOut.Clone(); $rv = [BitConverter]::ToUInt16($ramnOut, 0x24) + 0x18; $rEnd = 0x10 + [BitConverter]::ToUInt32($ramnOut, 0x14)
+        for ($k = $rv; $k + 1 -lt $rEnd; $k += 2) { $ramnOut[$k] = 0; $ramnOut[$k + 1] = 0 } }
 }
 
 # RCMN: every entry gets its part's pivot and a draw order from the part orders
