@@ -287,6 +287,22 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    The sheet went in with `tools/write-rig-sheet.ps1` (decompress, replace the 4bpp pixels, recompress, grow the
    entry) instead of the editor; `lz11-compress-optimal.ps1`'s match search is now compiled C# (the PowerShell
    loop took over 10 minutes on a 16 KB sheet, now about 40 s overall).
+   Planted feet and ground alignment (2026-10-28, Avery: feet should not move and should sit centred on the
+   grass circle). Four real poses now, squash/lean 0:0, 1:2, 4:3, 5:4 (rows 73 and down are identical in all
+   four), with D banded under the columns exactly like the front: parts 3/5/7 = D rows 0-31/32-63/64-95 at
+   Y 42/10/-22, driven by sequences 0/1/2 (`0=0,1,2,3,2,1;1=4,4,4,5,4,4;2=6,6,6,7,6,6` at 24 frames, blank 4);
+   the back RCMN entries for sequences 1 and 2 (offsets 0x4C and 0x54) were moved to (0,-40) like sequence 0.
+   Where "on the ground" is: `tools/render-rig-composite.ps1` assembles a rig the way the game does (cell Y is
+   Y-up, the RCMN offset and frame translation are screen-down; type-1 frame values are u16 cell, u16 rotation,
+   s32 scale X/Y, s16 x/y, which `dump-nanr.ps1` had read at the wrong offsets). Every vanilla back and front
+   checked (Zoroark, Lucario, Houndoom, Arcanine, Stoutland, Liepard, Sawsbuck, ...) ends its feet exactly on
+   the sprite origin, the centre of the grass circle. H-Zoroark's back was 7 px low and 3 px left, its front
+   5 px low: back cells now X -29 Y 42 (feet centred on the origin), front cells Y 42/42/42/42/10/-22. Kingambit
+   is still 8 px (back) / 5 px (front) below the origin; left as Avery approved it.
+   The bigger sheet did not fit: a/0/0/4 had 93 bytes of slack. `tools/move-file-to-end.ps1` moved the whole
+   NARC to the end of the ROM (0x113A5E00, past the header's used-size value; the old copy is left unused), so
+   it can now grow freely; the tool also rewrites the header's used size (0x80) and CRC (0x15E). Run it with
+   `-FixHeaderOnly` after growing the NARC again. The X build no longer needs to empty another file for space.
    To see a back sprite in melonDS without catching one, a throwaway ROM copy swapped H-Zoroark's back files
    (9, 11, 13-18) into the starter's slot; a/0/0/4 has little slack, so the starter's front sheet and static
    sprite were emptied in that copy first. melonDS needs a .sav named like the ROM.

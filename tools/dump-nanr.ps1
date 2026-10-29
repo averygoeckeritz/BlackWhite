@@ -15,7 +15,8 @@ for ($i = 0; $i -lt $seqCount; $i++) {
         $vp = (I32 ($seqStart + 8*$j)) + $valuesStart
         $idx += U16 $vp
         if ($type -eq 2) { $xs += S16 ($vp + 4); $ys += S16 ($vp + 6) }
-        elseif ($type -eq 1) { $rots += [Math]::Round((U16 ($vp + 4)) * 360 / 65536); $sx += [Math]::Round((I32 ($vp + 8)) / 4096, 2); $sy += [Math]::Round((I32 ($vp + 0xC)) / 4096, 2); $xs += S16 ($vp + 0x10); $ys += S16 ($vp + 0x12) }
+        elseif ($type -eq 1) {   # 16-byte value: u16 cell, u16 rotation, s32 scaleX, s32 scaleY (0x1000 = 1), s16 x, s16 y
+            $rots += [Math]::Round((U16 ($vp + 2)) * 360 / 65536); $sx += [Math]::Round((I32 ($vp + 4)) / 4096, 2); $sy += [Math]::Round((I32 ($vp + 8)) / 4096, 2); $xs += S16 ($vp + 0xC); $ys += S16 ($vp + 0xE) }
     }
     $desc = "seq $i`: $frameCount frames, type $type mode $mode, cell idx " + (($idx | Select-Object -Unique) -join '/')
     if ($type -eq 2) { $desc += "  x $(($xs | Measure-Object -Min).Minimum)..$(($xs | Measure-Object -Max).Maximum)  y $(($ys | Measure-Object -Min).Minimum)..$(($ys | Measure-Object -Max).Maximum)" }
