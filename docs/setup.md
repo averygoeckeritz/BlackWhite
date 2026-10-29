@@ -344,6 +344,10 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    bands sink 4/4/3/3/2/1 px from the top down (a crouch). Flick: the bands shear forward 4/3/2/1/1 px (head tilt
    and mane flick) while the arm moves out 2 px and up 1. Back: the same, mirrored, with the hanging mane and
    the fur on the left leg instead of the arm.
+   Avery did not like that either and scrapped all three attempts (2026-10-29): the working ROM was restored to
+   the shipped Ultra (backup 36, SHA-256 65E49A70...), whose front is the gen5ani GIF itself (frames 0/4/8/12)
+   and whose back is the planted-feet idle. The tools stay for later use. The GIF's 24 frames all differ almost
+   everywhere (about 66 of the 8x8 tiles each), and the 256x128 rig sheet holds at most about 5-6 full frames.
 7. Icon: Smogon pack ZOROARK_1 (the Hisuian one) via `make-icon-from-sheet.ps1` (palette 1 fit best).
 8. Cry: PokeAPI 10239.ogg (1.38 s, silent after 1.2 s) trimmed to 1.25 s, +1.2 dB, 8-bit 16600 Hz = 20750
    bytes into Durant's 20768-byte slot with `patch-cry.ps1`.
