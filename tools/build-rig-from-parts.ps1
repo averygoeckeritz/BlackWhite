@@ -10,7 +10,9 @@ param([string]$Spec, [string]$TemplateDir, [int]$TemplateBase, [string]$TargetDi
 #                    of its own, filled with its nearest own colour, so gaps do not open when parts move
 #   parts[]          name, cells [template cell indices it replaces], pivot [x,y], order (0 = drawn on top),
 #                    polys [[[x,y],...],...] (a pixel belongs to the first part, in list order, whose polygon holds
-#                    its centre), optional extend, optional default:true (takes every pixel no polygon claims)
+#                    its centre), optional extend, optional default:true (takes every pixel no polygon claims),
+#                    optional fill (palette index for its underpaint instead of the nearest own colour: a flat
+#                    shade reads better than a smear where a big part swings away)
 #   negate[]         template sequences whose rotation is mirrored (for anatomy that faces the other way)
 #   zeroMove[]       template sequences whose x/y translation is dropped
 # Every template cell that a used sequence shows but no part claims points at an empty 8x8 corner of the sheet.
@@ -62,7 +64,9 @@ for ($p = 0; $p -lt $nParts; $p++) {
             if ($nx -lt 0 -or $ny -lt 0 -or $nx -ge $IW -or $ny -ge $IH -or $dist[$nx, $ny] -ge 0) { continue }
             $w = $owner[$nx, $ny]; if ($w -lt 0 -or $parts[$w].order -ge $parts[$p].order) { continue }
             # copy the source neighbour's colour, but never spread outline black inward
-            $col = $L[$x, $y]; if ($col -eq 1) { $col = $pix[$nx, $ny] }; $L[$nx, $ny] = $col; $dist[$nx, $ny] = $dist[$x, $y] + 1; $q.Enqueue($ny * $IW + $nx) } }
+            $col = $L[$x, $y]; if ($col -eq 1) { $col = $pix[$nx, $ny] }
+            if ($null -ne $parts[$p].fill) { $col = [int]$parts[$p].fill }
+            $L[$nx, $ny] = $col; $dist[$nx, $ny] = $dist[$x, $y] + 1; $q.Enqueue($ny * $IW + $nx) } }
     $x0 = $IW; $y0 = $IH; $x1 = -1; $y1 = -1
     for ($y = 0; $y -lt $IH; $y++) { for ($x = 0; $x -lt $IW; $x++) { if ($L[$x, $y]) { if ($x -lt $x0) { $x0 = $x }; if ($x -gt $x1) { $x1 = $x }; if ($y -lt $y0) { $y0 = $y }; if ($y -gt $y1) { $y1 = $y } } } }
     $layers += ,@{ L = $L; x0 = $x0; y0 = $y0; W = [int]([Math]::Ceiling(($x1 - $x0 + 1) / 8) * 8); H = [int]([Math]::Ceiling(($y1 - $y0 + 1) / 8) * 8) }
@@ -96,6 +100,57 @@ foreach ($s in @($cfg.zeroMove)) { if ($null -eq $s) { continue }; $sv = SeqValu
     foreach ($vp in $sv.vps) { $at = $(if ($sv.type -eq 1) { 0xC } elseif ($sv.type -eq 2) { 4 } else { -1 }); if ($at -ge 0) { [BitConverter]::GetBytes([int32]0).CopyTo($nanr, $vp + $at) } } }
 # (values shared between sequences are edited once; a shared value edited for one sequence changes the others too)
 
+# Optional own motion instead of the template's: "motion": { length (ticks), step (ticks per frame), rest (share of
+# the loop spent still), parts: { name: { rot (degrees, + = clockwise), x, y } } }. Every sequence is rewritten as
+# type 1: a part listed there follows a = (1 - cos)/2 from 0 up to 1 and back over the moving share of the loop
+# (all listed parts in step), every other part holds still on its cell. The RAMN is pinned to multi-cell 0.
+$ramnOut = TE ($o + 7)
+if ($cfg.motion) {
+    $mo = $cfg.motion; $len = [int]$mo.length; $step = [int]$mo.step; $restShare = [double]$mo.rest
+    $seqCount = [BitConverter]::ToUInt16($nanr, 0x18); $abnkSize = [BitConverter]::ToUInt32($nanr, 0x14)
+    $tail = New-Object byte[] ($nanr.Length - (0x10 + $abnkSize)); [Array]::Copy($nanr, 0x10 + $abnkSize, $tail, 0, $tail.Length)
+    $partOfCell = @{}; for ($q = 0; $q -lt $nParts; $q++) { foreach ($c in $parts[$q].cells) { $partOfCell[[int]$c] = $parts[$q].name } }
+    $vals = New-Object System.Collections.Generic.List[byte]; $valOff = @{}
+    function ValOffset($cell, $rotDeg, $dx, $dy) {
+        $r = [int]([Math]::Round($rotDeg * 65536 / 360)); if ($r -lt 0) { $r += 65536 }; $r = $r % 65536
+        $key = "$cell,$r,$dx,$dy"; if ($valOff.ContainsKey($key)) { return $valOff[$key] }
+        $valOff[$key] = $vals.Count
+        $vals.AddRange([BitConverter]::GetBytes([uint16]$cell)); $vals.AddRange([BitConverter]::GetBytes([uint16]$r))
+        $vals.AddRange([BitConverter]::GetBytes([int32]4096)); $vals.AddRange([BitConverter]::GetBytes([int32]4096))
+        $vals.AddRange([BitConverter]::GetBytes([int16]$dx)); $vals.AddRange([BitConverter]::GetBytes([int16]$dy))
+        return $valOff[$key] }
+    $seqHdr = New-Object System.Collections.Generic.List[byte]; $frm = New-Object System.Collections.Generic.List[byte]; $totalFrames = 0
+    for ($s = 0; $s -lt $seqCount; $s++) {
+        $sv = SeqValues $s; $cell = [BitConverter]::ToUInt16($nanr, $sv.vps[0]); $name = $partOfCell[[int]$cell]
+        $m = $(if ($name) { $mo.parts.$name } else { $null })
+        $frameOff = $frm.Count; $nf = 0
+        if ($m) {
+            for ($t = 0; $t -lt $len; $t += $step) {
+                $ph = $t / $len; $mv = 1 - $restShare
+                $a = $(if ($ph -lt $restShare) { 0 } else { (1 - [Math]::Cos(2 * [Math]::PI * ($ph - $restShare) / $mv)) / 2 })
+                $vo = ValOffset $cell ([double]$m.rot * $a) ([int][Math]::Round([double]$m.x * $a)) ([int][Math]::Round([double]$m.y * $a))
+                $frm.AddRange([BitConverter]::GetBytes([uint32]$vo)); $frm.AddRange([BitConverter]::GetBytes([uint16]$step)); $frm.Add(0xEF); $frm.Add(0xBE); $nf++ }
+        } else {
+            $vo = ValOffset $cell 0 0 0
+            $frm.AddRange([BitConverter]::GetBytes([uint32]$vo)); $frm.AddRange([BitConverter]::GetBytes([uint16]$len)); $frm.Add(0xEF); $frm.Add(0xBE); $nf = 1 }
+        $totalFrames += $nf
+        $seqHdr.AddRange([BitConverter]::GetBytes([uint32]$nf)); $seqHdr.AddRange([BitConverter]::GetBytes([uint16]1)); $seqHdr.AddRange([BitConverter]::GetBytes([uint16]1))
+        $seqHdr.AddRange([BitConverter]::GetBytes([uint32]2)); $seqHdr.AddRange([BitConverter]::GetBytes([uint32]$frameOff))
+    }
+    $seqStart = 0x18; $frameStart = $seqStart + $seqHdr.Count; $valStart = $frameStart + $frm.Count
+    $abnk = New-Object System.Collections.Generic.List[byte]
+    $abnk.AddRange([Text.Encoding]::ASCII.GetBytes('KNBA')); $abnk.AddRange([BitConverter]::GetBytes([uint32](8 + $valStart + $vals.Count)))
+    $abnk.AddRange([BitConverter]::GetBytes([uint16]$seqCount)); $abnk.AddRange([BitConverter]::GetBytes([uint16]$totalFrames))
+    foreach ($v32 in @($seqStart, $frameStart, $valStart, 0, 0)) { $abnk.AddRange([BitConverter]::GetBytes([uint32]$v32)) }
+    $abnk.AddRange($seqHdr); $abnk.AddRange($frm); $abnk.AddRange($vals)
+    $nl = New-Object System.Collections.Generic.List[byte]; $nl.AddRange([byte[]]$nanr[0..15]); $nl.AddRange($abnk); $nl.AddRange($tail)
+    $nanr = $nl.ToArray(); [BitConverter]::GetBytes([uint32]$nanr.Length).CopyTo($nanr, 8)
+    $fs = [BitConverter]::ToUInt16($nanr, 0x20) + 0x18; $vs = [BitConverter]::ToUInt16($nanr, 0x24) + 0x18
+    # RAMN: every frame's multi-cell value -> 0 (values are u16 from the value offset up to the LABL block)
+    $ramnOut = $ramnOut.Clone(); $rv = [BitConverter]::ToUInt16($ramnOut, 0x24) + 0x18; $rEnd = 0x10 + [BitConverter]::ToUInt32($ramnOut, 0x14)
+    for ($k = $rv; $k + 1 -lt $rEnd; $k += 2) { $ramnOut[$k] = 0; $ramnOut[$k + 1] = 0 }
+}
+
 # RCMN: every entry gets its part's pivot and a draw order from the part orders
 $rcmn = TE ($o + 6); $cells = TE ($o + 8)
 $cellPart = @{}; for ($p = 0; $p -lt $nParts; $p++) { foreach ($c in $parts[$p].cells) { $cellPart[[int]$c] = $p } }
@@ -126,7 +181,7 @@ foreach ($c in $blankCells.Keys) { SetCell $c 0 0 8 8 248 120 }
 # output set
 for ($k = 0; $k -lt 20; $k++) { [IO.File]::WriteAllBytes((Join-Path $OutDir ("a-0-0-4_{0}.bin" -f ($TargetBase + $k))), (GE $k)) }
 function Out($k, $bytes) { [IO.File]::WriteAllBytes((Join-Path $OutDir ("a-0-0-4_{0}.bin" -f ($TargetBase + $o + $k))), $bytes) }
-Out 2 $sheet; Out 5 $nanr; Out 6 $rcmn; Out 7 (TE ($o + 7)); Out 8 $cells
+Out 2 $sheet; Out 5 $nanr; Out 6 $rcmn; Out 7 $ramnOut; Out 8 $cells
 
 # previews
 $pal = GE 18; $argb = @(); for ($i = 0; $i -lt 16; $i++) { $v = [BitConverter]::ToUInt16($pal, 40 + $i*2); $argb += [Drawing.Color]::FromArgb(255, ($v -band 0x1F)*8, (($v -shr 5) -band 0x1F)*8, (($v -shr 10) -band 0x1F)*8) }
