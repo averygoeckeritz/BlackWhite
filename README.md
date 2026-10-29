@@ -45,7 +45,8 @@ is a branch evolution of Zorua by Dusk Stone; Unovan Zoroark still comes at leve
 Routes and Victory Road area) and five trainer Pokémon became Escavalier. Stats, learnset (Scarlet/Violet
 level-up set plus Encore at 22 and Will-O-Wisp at 30, Hex standing in for Bitter Malice), TMs (Zoroark's plus
 Will-O-Wisp), dex text, sprites with a
-four-pose flowing idle (front) and a back idle matched to it, party icon and the official cry are in. Details in
+six-frame flowing idle from the animated sprite (front) and a six-pose planted-feet idle (back), party icon and the
+official cry are in. Details in
 `docs/setup.md`. Same patch file: `patch/White2Redux-Kingambit.bps` now carries both projects.
 
 ## Balance changes (2026-10-27)
@@ -56,10 +57,11 @@ Fairy/Fire with Play Rough at level 35, and Sawsbuck became Fairy/Grass. Details
 
 ## Release
 
-Shipped 2026-10-27 and updated 2026-10-28 as `My Drive\Pokémon\White 2 Redux Ultra.nds` (SHA-256
-65E49A70…3550A8A0): Kingambit, Hisuian Zoroark (back idle matched to the front with planted feet, both views
-standing on the grass circle), the balance changes and the Fairy changes. The sprite work was tested by Avery
-on the phone; the Fairy changes have not been seen in a battle yet. `patch/White2Redux-Kingambit.bps` turns a
+Shipped 2026-10-27 and updated 2026-10-28 and 2026-10-29 as `My Drive\Pokémon\White 2 Redux Ultra.nds` (SHA-256
+0E7D1204…6BD55D18): Kingambit, Hisuian Zoroark (front idle with six frames of the animated sprite, back idle with
+a deeper dip and lean over six poses, feet planted, both views standing on the grass circle), the balance changes
+and the Fairy changes. The sprite work was approved by Avery; the Fairy changes have not been seen in
+a battle yet. `patch/White2Redux-Kingambit.bps` turns a
 clean Volt White 2 Redux v1.4.1 ROM into exactly this file. The matching test build (Hisuian Zoroark in Route
 19 grass, catch rate 255) is kept locally as `rom/White2Redux-Kingambit-TEST.nds`; it goes on Drive as
 `White 2 Redux X.nds` only while a phone test is running.
