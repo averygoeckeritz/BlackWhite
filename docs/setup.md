@@ -348,6 +348,16 @@ pick; `tools/survey-species-usage.ps1` ranks slots by trainer and wild use if an
    the shipped Ultra (backup 36, SHA-256 65E49A70...), whose front is the gen5ani GIF itself (frames 0/4/8/12)
    and whose back is the planted-feet idle. The tools stay for later use. The GIF's 24 frames all differ almost
    everywhere (about 66 of the 8x8 tiles each), and the 256x128 rig sheet holds at most about 5-6 full frames.
+   Six-frame front (2026-10-29, Avery: as many GIF frames as fit): `tools/build-gif-rig.ps1` cuts GIF frames 0, 4,
+   8, 12, 16, 20 into 16-row strips trimmed to their own width (rounded to 8), packs them into the sheet (33 strips
+   plus a blank = 34 cells; other species go up to 61) and plays them forward, 24 frames each (2.4 s, the GIF's
+   own loop) through sequences 0-5 of multi-cell 0. Eight frames came up about 10 strips short. GIF pixel (0,0)
+   sits at (-36,-77) from the origin, the same placement as before (feet on the origin, centre 2.5); every pose
+   was checked pixel for pixel against the GIF. The old RAMN switched multi-cells every 78/78/74 frames, which
+   can cut a 144-frame cycle if the game restarts sequences there; it now holds multi-cell 0 for exactly one
+   cycle per frame. Space: the sheet grew 1411 bytes and the cells file 1056, so 36 sprite entries of species
+   637-642 and 647-649 were recompressed with `lz11-compress-optimal.ps1` (each checked to decompress
+   byte-identically), freeing 2584 bytes; 822 bytes of slack remain.
 7. Icon: Smogon pack ZOROARK_1 (the Hisuian one) via `make-icon-from-sheet.ps1` (palette 1 fit best).
 8. Cry: PokeAPI 10239.ogg (1.38 s, silent after 1.2 s) trimmed to 1.25 s, +1.2 dB, 8-bit 16600 Hz = 20750
    bytes into Durant's 20768-byte slot with `patch-cry.ps1`.
